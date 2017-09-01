@@ -4,12 +4,11 @@
 
 int main(void) {
         unsigned short op;
-        int o, res_cmp;
+        int res_cmp;
         rational r1, r2, res;
 
         do {
-                get_val(&o);
-                op = (unsigned short)o;
+                op = (unsigned short)get_val();
 
                 switch (op) {
                         case ADDICTION:
