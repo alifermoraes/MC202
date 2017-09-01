@@ -1,6 +1,6 @@
 CC:= clang
 
-CFLAGS:= -ansi -Wall -pedantic-errors
+CFLAGS:= -ansi -Wall -pedantic-errors -fsanitize=address -fno-omit-frame-pointer
 
 OUT_NAME:= rational
 
