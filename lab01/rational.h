@@ -14,7 +14,7 @@ typedef struct {
         int den;
 } rational;
 
-void get_val(int *val);
+double get_val(void);
 rational scan_rational(void);
 void print_rational(rational r);
 rational add_rational(rational r1, rational r2);

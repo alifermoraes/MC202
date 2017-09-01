@@ -4,23 +4,28 @@
 
 static int gcd(int a, int b);
 
-void get_val(int *val) {
-	char *pointer, string[1000];
+double get_val() {
+	double val, tmp;
 
-	do {
-                fgets(string, sizeof(string), stdin);
-                *val = strtol(string, &pointer, 10);
-        } while ((pointer == string || *pointer != '\n'));
+	while (scanf("%lf", &val) != 1) {
+		printf("Invalid operation, try again.\n");
+
+		do {
+	                tmp = getchar();
+	        } while (tmp != EOF && tmp != '\n');
+	}
+
+	return val;
 }
 
 rational scan_rational() {
         rational r;
 
-        get_val(&r.num);
-	get_val(&r.den);
+        r.num = (int)get_val();
+	r.den =  (int)get_val();
         while (r.den == 0) {
-                printf("Please, enter a new value for the denominator\n");
-                get_val(&r.den);
+                printf("Please, enter a new value for the denominator.\n");
+		r.den =  (int)get_val();
         }
 
         return r;

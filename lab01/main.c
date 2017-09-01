@@ -3,14 +3,14 @@
 #include <stdlib.h>
 
 int main(void) {
-        unsigned short op;
+        unsigned short option;
         int res_cmp;
         rational r1, r2, res;
 
         do {
-                op = (unsigned short)get_val();
+                option = (unsigned short)get_val();
 
-                switch (op) {
+                switch (option) {
                         case ADDICTION:
                                 r1 = scan_rational();
                                 r2 = scan_rational();
@@ -58,7 +58,7 @@ int main(void) {
                         default:
                                 printf("Invalid operation\n");
                 }
-        } while (op != FINISH);
+        } while (option != FINISH);
 
         printf("Finished\n");
         return EXIT_SUCCESS;
