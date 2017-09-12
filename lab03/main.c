@@ -5,7 +5,7 @@
 int main (void)
 {
         unsigned short option;
-        int pos, len;
+        int pos, len, p, q, r;
         char data;
         ptr_node list;
 
@@ -37,6 +37,8 @@ int main (void)
                         break;
 
                 case TRANSPOSE_DNA:
+                        scanf("%d %d %d", &p, &q, &r);
+                        list = transpose_dna(list, p, q, r);
                         break;
 
                 case PRINT_DNA:

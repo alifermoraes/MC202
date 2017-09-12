@@ -173,11 +173,58 @@ ptr_node suffix_inversion(ptr_node list, int len)
         return list;
 }
 
-ptr_node transpose_dna(ptr_node list, int p, int q)
+ptr_node transpose_dna(ptr_node list, int p, int q, int r)
 {
-        if (p == q)
-                return list;
+        int i;
+        ptr_node first, last, prev, next, aux = list;
 
+        if (p > q) {
+                printf("p must be greater than q.\n");
+                return list;
+        }
+
+        if ((q - p) > list_len(list)) {
+                printf("Error! stretch > list leng.\n");
+                return list;
+        }
+
+        if ((2*q - p + r) > list_len(list) || (p + r) < 0) {
+                printf("Error! stretch shift is out of list.\n");
+                return list;
+        }
+
+        for (i = 0; i < p - 1; i++)
+                aux = aux->next;
+
+        i++;
+        prev = aux;
+        aux = aux->next;
+        first = aux;
+
+        for (;i < q; i++) {
+                printf("%c ", aux->data);
+                aux = aux->next;
+        }
+        printf("%c ", aux->data);
+
+        last = aux;
+
+        if (r >= 0) {
+                printf("> ");
+
+                for (i = 0; i < r; i++)
+                        aux = aux->next;
+
+                next = aux;
+                prev->next = last->next;
+                last->next = next->next;
+                next->next = first;
+
+        } else {
+                printf("< ");
+        }
+
+        printf("%d \n", abs(r));
         return list;
 }
 
