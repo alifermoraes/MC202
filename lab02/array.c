@@ -56,17 +56,16 @@ void reg_insertion(ptr_reg reg, unsigned short option)
                                         exit(EXIT_FAILURE);
                                 }
 
-                                if (i < reg->b_index)
+                                if (i < reg->b_index) {
                                         strcpy(reg->books[i], tmp[i]);
+					free(tmp[i]);
+				}
                         }
+
+			free(tmp);
 
                         scanf("%s", reg->books[reg->b_index]);
                         reg->b_index++;
-
-                        for (i = 0; i < (reg->b_len/2); i++)
-                                free(tmp[i]);
-
-                        free(tmp);
                 }
                 break;
 
@@ -87,8 +86,10 @@ void reg_insertion(ptr_reg reg, unsigned short option)
                         for (i = 0; i < reg->u_len; i++) {
                                 reg->universities[i] = malloc(sizeof(char[MAXIMUM]));
 
-                                if (i < reg->u_index)
+                                if (i < reg->u_index) {
                                         strcpy(reg->universities[i], tmp[i]);
+					free(tmp[i]);
+				}
 
                                 if (!reg->universities[i]) {
                                         printf("Function reg_insertion has failed! Out of memory.\n");
@@ -96,13 +97,10 @@ void reg_insertion(ptr_reg reg, unsigned short option)
                                 }
                         }
 
+			free(tmp);
+
                         scanf("%s", reg->universities[reg->u_index]);
                         reg->u_index++;
-
-                        for (i = 0; i < (reg->u_len/2); i++)
-                                free(tmp[i]);
-
-                        free(tmp);
                 }
                 break;
         }
