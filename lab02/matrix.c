@@ -17,7 +17,7 @@ ptr_mat init_mat(void)
         mat->col_len = 1;
 
         if (!mat || !mat->m || !mat->m[0]) {
-                printf("init_mat() function has failed! Out of memory\n");
+                printf("init_mat() function has failed! Out of memory.\n");
                 exit(EXIT_FAILURE);
         }
 
@@ -47,7 +47,7 @@ void mat_insertion(ptr_mat mat, unsigned short option)
                         mat->m = malloc(mat->row_len * (sizeof(int*)));
 
                         if (!mat->m) {
-                                printf("mat_insertion() function has failed! Out of memory\n");
+                                printf("mat_insertion() function has failed! Out of memory.\n");
                                 exit(EXIT_FAILURE);
                         }
 
@@ -55,7 +55,7 @@ void mat_insertion(ptr_mat mat, unsigned short option)
                                 mat->m[i] = malloc(mat->col_len * sizeof(int));
 
                                 if (!mat->m[i]) {
-                                        printf("mat_insertion() function has failed! Out of memory\n");
+                                        printf("mat_insertion() function has failed! Out of memory.\n");
                                         exit(EXIT_FAILURE);
                                 }
 
@@ -92,7 +92,7 @@ void mat_insertion(ptr_mat mat, unsigned short option)
                                 mat->m[i] = malloc(mat->col_len * (sizeof(int)));
 
                                 if (!mat->m[i]) {
-                                        printf("mat_insertion() function has failed! Out of memory\n");
+                                        printf("mat_insertion() function has failed! Out of memory.\n");
                                         exit(EXIT_FAILURE);
                                 }
 

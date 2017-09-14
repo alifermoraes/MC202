@@ -53,10 +53,11 @@ int main(void) {
                                 break;
 
                         case FINISH:
+				printf("System finished.");
                                 break;
 
                         default:
-                                printf("Invalid operation\n");
+                                printf("Invalid operation.\n");
                 }
         } while (option != FINISH);
 

@@ -52,7 +52,7 @@ int main()
                         break;
 
                 default:
-                        printf("Invalid operation\n");
+                        printf("Invalid operation.\n");
                         break;
 
                 }

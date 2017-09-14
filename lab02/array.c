@@ -20,7 +20,7 @@ ptr_reg init_reg(void)
         reg->u_len = 1;
 
         if (!reg->books || !reg->books[0] || !reg->universities || !reg->universities[0]) {
-                printf("Function init_array() has failed! Out of memory\n");
+                printf("Function init_array() has failed! Out of memory.\n");
                 exit(EXIT_FAILURE);
         }
 
@@ -44,7 +44,7 @@ void reg_insertion(ptr_reg reg, unsigned short option)
                         reg->books = malloc(reg->b_len * sizeof(char *));
 
                         if (!reg->books) {
-                                printf("Function reg_insertion has failed! Out of memory\n");
+                                printf("Function reg_insertion has failed! Out of memory.\n");
                                 exit(EXIT_FAILURE);
                         }
 
@@ -52,7 +52,7 @@ void reg_insertion(ptr_reg reg, unsigned short option)
                                 reg->books[i] = malloc(sizeof(char[MAXIMUM]));
 
                                 if (!reg->books[i]) {
-                                        printf("Function reg_insertion has failed! Out of memory\n");
+                                        printf("Function reg_insertion has failed! Out of memory.\n");
                                         exit(EXIT_FAILURE);
                                 }
 
@@ -80,7 +80,7 @@ void reg_insertion(ptr_reg reg, unsigned short option)
                         reg->universities = malloc(reg->u_len * sizeof(char *));
 
                         if (!reg->universities) {
-                                printf("Function reg_insertion has failed! Out of memory\n");
+                                printf("Function reg_insertion has failed! Out of memory.\n");
                                 exit(EXIT_FAILURE);
                         }
 
@@ -91,7 +91,7 @@ void reg_insertion(ptr_reg reg, unsigned short option)
                                         strcpy(reg->universities[i], tmp[i]);
 
                                 if (!reg->universities[i]) {
-                                        printf("Function reg_insertion has failed! Out of memory\n");
+                                        printf("Function reg_insertion has failed! Out of memory.\n");
                                         exit(EXIT_FAILURE);
                                 }
                         }
