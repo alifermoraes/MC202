@@ -212,7 +212,6 @@ ptr_node transpose_dna(ptr_node list, int p, int q, int r)
         last = aux;
 
         if (r > 0) {
-                printf("> ");
 
                 if (r) {
                         for (i = 0; i < r; i++)
@@ -226,6 +225,8 @@ ptr_node transpose_dna(ptr_node list, int p, int q, int r)
                         last->next = aux->next;
                         aux->next = first;
                 }
+
+		printf("> ");
 
         } else {
                 aux = list;
