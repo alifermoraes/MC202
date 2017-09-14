@@ -16,13 +16,13 @@ typedef struct Node {
 
 typedef Node * ptr_node;
 
-ptr_node create_empty_list();
+ptr_node create_empty_list(void);
 ptr_node insert_nucleobase(ptr_node list, char data, int pos);
 ptr_node remove_nucleobase(ptr_node list, int pos);
 ptr_node prefix_inversion(ptr_node list, int len);
 ptr_node suffix_inversion(ptr_node list, int len);
 ptr_node transpose_dna(ptr_node list, int p, int q, int r);
-void print_list(ptr_node list);
-void free_list(ptr_node list);
+void print_sequence(ptr_node list);
+void free_sequence(ptr_node list);
 
 #endif		/* _LIST_H_DEFINED_ */
