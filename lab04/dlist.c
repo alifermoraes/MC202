@@ -24,6 +24,11 @@ ptr_node insert_proc(ptr_node proc_list)
 
         new = malloc(sizeof(Node));
 
+        if (!new) {
+                printf("insert_proc() function has failed! Out of memory.\n")
+                exit(EXIT_FAILURE);
+        }
+
         new->id = id;
         new->cycles = cycles;
 
