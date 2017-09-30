@@ -10,4 +10,4 @@ main: main.c array.c array.h matrix.c matrix.h Makefile
 	scan-build $(CC) $(CFLAGS) main.c array.c matrix.c -o $(OUT_NAME)
 
 clean:
-	$(RM) lab02
+	$(RM) $(OUT_NAME)
