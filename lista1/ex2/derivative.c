@@ -45,7 +45,7 @@ ptr_node derivative(ptr_node polynomial)
                 return polynomial;
 
         if (!polynomial->coefficient) {
-                        return NULL;
+                        return polynomial->next;
         }
 
         polynomial->next = derivative(polynomial->next);
