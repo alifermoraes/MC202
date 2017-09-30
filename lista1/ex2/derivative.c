@@ -11,6 +11,11 @@ ptr_node create_polynomial(int argc, char *argv[])
 
         v1 = malloc(argc * sizeof(int));
         v2 = malloc(argc * sizeof(int));
+        
+        if (!v1 || !v2) {
+                printf("function create_polynomial has failed! Out of memory.\n");
+                exit(EXIT_FAILURE);
+        }
 
         for (i = 1; i < argc; i++)
                 if (atoi(argv[i])) {
@@ -21,6 +26,11 @@ ptr_node create_polynomial(int argc, char *argv[])
 
         if (n_const) {
                 polynomial = malloc(n_const * sizeof(Node));
+                
+                if (!polynomial) {               
+                        printf("function create_polynomial has failed! Out of memory.\n");
+                        exit(EXIT_FAILURE);
+                }
 
                 for (i = 0; i < n_const - 1; i++) {
                         polynomial[i].constant = v1[i];
