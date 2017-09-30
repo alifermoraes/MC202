@@ -10,4 +10,4 @@ main: main.c list.c list.h Makefile
 	scan-build $(CC) $(CFLAGS) main.c list.c -o $(OUT_NAME)
 
 clean:
-	$(RM) lab03
+	$(RM) $(OUT_NAME)
