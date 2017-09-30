@@ -21,6 +21,12 @@ ptr_node insert_nucleobase(ptr_node list, char data, int pos)
         }
 
         new = malloc(sizeof(Node));
+	
+	if (!new) {
+		printf("function insert_nucleobase() has failed! Out of memory.\n");
+		exit(EXIT_FAILURE);
+	}
+
         new->data = data;
 
         if (!pos) {
