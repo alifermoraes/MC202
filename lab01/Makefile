@@ -10,4 +10,4 @@ main: main.c rational.c rational.h Makefile
 	scan-build $(CC) $(CFLAGS) main.c rational.c -o $(OUT_NAME)
 
 clean:
-	$(RM) lab01
+	$(RM) $(OUT_NAME)
