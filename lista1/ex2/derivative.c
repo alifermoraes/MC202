@@ -20,8 +20,7 @@ ptr_node create_polynomial(int argc, char *argv[])
         for (i = 1; i < argc; i++)
                 if (atoi(argv[i])) {
                         v1[n_const] = atoi(argv[i]);
-                        v2[n_const] = argc - i - 1;
-                        n_const++;
+                        v2[n_const++] = argc - i - 1;
                 }
 
         if (n_const) {
@@ -59,8 +58,7 @@ ptr_node derivative(ptr_node polynomial)
         }
 
         polynomial->next = derivative(polynomial->next);
-        polynomial->constant *= polynomial->coefficient;
-        polynomial->coefficient--;
+        polynomial->constant *= polynomial->coefficient--;
 
         return polynomial;
 }
