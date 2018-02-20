@@ -1,7 +1,7 @@
 #ifndef _RATIONAL_H_
 #define _RATIONAL_H_
 
-#define ADDICTION       1
+#define ADDITION       1
 #define SUBTRACTION     2
 #define MULTIPLICATION  3
 #define DIVISION        4
