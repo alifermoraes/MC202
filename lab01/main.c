@@ -11,7 +11,7 @@ int main(void) {
                 option = (unsigned short)get_val();
 
                 switch (option) {
-                        case ADDICTION:
+                        case ADDITION:
                                 r1 = scan_rational();
                                 r2 = scan_rational();
                                 res = add_rational(r1, r2);
