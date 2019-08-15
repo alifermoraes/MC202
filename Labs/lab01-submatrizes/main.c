@@ -7,7 +7,8 @@
  * Trabalho: 01-sumatriz
  * 
  * Submatriz
- * Dada uma matriz de inteiros positivos n por m, estamos interessados em encontrar a maior soma de * elementos possível em uma submatriz de tamanho r por s.
+ * Dada uma matriz de inteiros positivos n por m, estamos interessados em encontrar a maior soma de
+ * elementos possível em uma submatriz de tamanho r por s.
  *
  * Entrada
  * A entrada tem uma linha com inteiros n, m, r, s separados por espaços, sendo que 1≤n≤1000,
