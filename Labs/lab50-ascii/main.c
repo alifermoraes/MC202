@@ -42,14 +42,15 @@ int main(void) {
 
         printf("\n");
     }
-        printf("%3d | ", c);
+    
+    printf("%3d | ", c);
 
-        for (i = 0; i < 7; i++) {
-            printf("%2c ", c);
-            c++;
-        }
+    for (i = 0; i < 7; i++) {
+        printf("%2c ", c);
+        c++;
+    }
 
-        printf("   \n");
+    printf("   \n");
 
     return 0;
 }
