@@ -30,62 +30,53 @@ typedef struct {
 
 typedef Triple * ptr_triple;
 
-/*
- * Estrutura para armazenar as triplas em um vetor, seu tamanho e o numero de
- * triplas armazenadas
- */
-typedef struct {
-    ptr_triple* triples;
-    int size;
-    int index;
-}   Vector;
-
 int main(void) {
-    int counter = 0;
-    int i, j, num, freq;
+    int i, j, num, freq, v_size, v_index;
     char character;
-    ptr_triple* tmp = NULL;
+    ptr_triple tmp = NULL;
 
     /* Inicia o vetor de triplas com capacidade para 1 tripla*/
-    Vector vector;
-    vector.triples_v = malloc(sizeof(Triple))
-    vector.size = 1;
-    vector.index = 0;
+    ptr_triple v_triples = malloc(sizeof(Triple));
+    v_size = 1;
+    v_index = 0;
     
     /*
      * Lê as entradas e as armazena no vetor de triplas.
      */
     do {
-        /* Se o vetor de triplas estiver completo, dobra seu tamanho */
-        if (vector.index = vector.size) {
-            tmp = vector.triples_v;
-            vector.triples_v = malloc((2 * vector.size) * sizeof(Triple));
+        /* Se o vetor de triplas estiver cheio, dobra seu tamanho */
+        if (v_index == v_size) {
+            tmp = v_triples;
+            v_size *= 2;
+            v_triples = malloc(v_size * sizeof(Triple));
 
-            for (i = 0; i < vector.size; i++) {
-                vector.triples_v[i] = tmp.triples_v[i];
+            for (i = 0; i < v_size; i++) {
+                v_triples[i] = tmp[i];
             }
 
-            vector.size *= 2;
             free(tmp);
             tmp = NULL;         
         }
         
-        scanf(" (%d,%d,%c)", &triple_v[counter]->num, &triple_v[counter]->freq, &triple_v[counter]->character);
-        counter++;
+        scanf(" (%d,%d,%c)", &v_triples[v_index].number, &v_triples[v_index].frequency, &v_triples[v_index].character);
+        v_index++;
     } while (getchar() != EOF);
 
-    for (i = 0; i < counter; i++) {
-        num = triple_v[i]->num;
-        freq = triple_v[i]->freq;
-        _char = triple_v[i]->character;
+    for (i = 0; i < v_index; i++) {
+        num = v_triples[i].number;
+        freq = v_triples[i].frequency;
+        character = v_triples[i].character;
 
             printf("%3d |", num);
             for (j = 0; j < freq; j++) {
-                printf("%c", _char);
+                printf("%c", character);
             }
 
             printf(" %d\n", freq);
     }
+
+    free(v_triples);
+    v_triples = NULL;  
 
     return EXIT_SUCCESS;
 }
