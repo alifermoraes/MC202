@@ -1,2 +1,6 @@
 # Compiled C files
 *.o
+
+# Test files
+*.in
+*.out
