@@ -33,7 +33,8 @@ int main(void) {
     int i, j;
 
     /**
-     * Le os dados de entrada e cria uma matriz extendida com a primeira linha  * e primeira coluna compostas por zeros
+     * Le os dados de entrada e cria uma matriz extendida com a primeira linha
+     * e primeira coluna compostas por zeros
      */
     scanf(" %d %d %d %d", &lines, &columns, &sub_lines, &sub_columns);
 
@@ -57,7 +58,8 @@ int main(void) {
     }
 
     /**
-     * Percorre a matriz de somas, retornando a maior soma de uma submatriz de dimensao sub_lines x sub_columns
+     * Percorre a matriz de somas, retornando a maior soma de uma submatriz de
+     * dimensao sub_lines x sub_columns
      */
 
     for (i = sub_lines; i <= lines; i++) {
