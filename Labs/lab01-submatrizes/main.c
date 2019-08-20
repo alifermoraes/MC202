@@ -22,41 +22,50 @@
  */
 
 #include <stdio.h>
+#include <limits.h>
 
 #define MAIOR(a, b) a > b ? a : b
 
 int main(void) {
     int lines, columns, sub_lines, sub_columns;
-    int sum, result = 0;
-    int i, j, k, l;
+    int result = INT_MIN;
+    int sum, value;
+    int i, j;
 
-    /* Le os dados de entrada e cria a matriz*/
+    /**
+     * Le os dados de entrada e cria uma matriz extendida com a primeira linha  * e primeira coluna compostas por zeros
+     */
     scanf(" %d %d %d %d", &lines, &columns, &sub_lines, &sub_columns);
 
-    int M[lines][columns];
+    int M[lines + 1][columns + 1];
+    for (i = 0; i <= lines; i++)
+        M[i][0] = 0;
+    
+    for (i = 0; i <= columns; i++)
+        M[0][i] = 0;
 
-    for (i = 0; i < lines; i++) {
-        for (j = 0; j < columns; j++) {
-            scanf(" %d", &M[i][j]);
+    /**
+     * Le os valores de entrada na matriz, salvando em cada posicao i, j a
+     * soma dos valores compreendidos pela submatriz de dimensao i x j
+     */
+    for (i = 1; i <= lines; i++) {
+        for (j = 1; j <= columns; j++) {
+            scanf(" %d", &value);
+            M[i][j] = M[i - 1][j] + M[i][j - 1] - M[i - 1][j - 1] + value;
         }
     }
 
-    /* Calcula as somas das submatrizes e retorna o maior valor obtido */
-    /* O laço de i,j avalia todas as submatrizes possíveis */
-    for (i = 0; i <= lines - sub_lines; i++) { 
-        for (j = 0; j <= columns - sub_columns; j++) {
-            sum = 0;
+    /**
+     * Percorre a matriz de somas, retornando a maior soma de uma submatriz de dimensao sub_lines x sub_columns
+     */
 
-            /* O laço k,l soma todos os elementos de cada submatriz */
-            for (k = i; k < i + sub_lines; k++) { 
-                for (l = j; l < j + sub_columns; l++) {
-                    sum += M[k][l];
-                }
-            }
+    for (i = sub_lines; i <= lines; i++) {
+        for (j = sub_columns; j <= columns; j++) {
+            sum = M[i][j] + M[i - sub_lines][j - sub_columns] -
+            M[i - sub_lines][j] - M[i][j - sub_columns];
 
-            result = MAIOR(result, sum);
+            result = MAIOR(sum, result);
         }
-
     }
 
     printf("%d\n", result);
