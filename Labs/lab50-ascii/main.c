@@ -1,4 +1,4 @@
-/*
+/**
  * MC202B - Estrutura de Dados
  * 
  * Nome: Alifer Willians de Moraes

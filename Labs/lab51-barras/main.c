@@ -1,4 +1,4 @@
-/*
+/**
  * MC202B - Estrutura de Dados
  * 
  * Nome: Alifer Willians de Moraes
@@ -35,14 +35,12 @@ int main(void) {
     char character;
     ptr_triple tmp = NULL;
 
-    /* Inicia o vetor de triplas com capacidade para 1 tripla*/
+    /* Inicia o vetor de triplas com capacidade para 1 tripla */
     ptr_triple v_triples = malloc(sizeof(Triple));
     v_size = 1;
     v_index = 0;
     
-    /*
-     * Lê as entradas e as armazena no vetor de triplas.
-     */
+    /* Lê as entradas e as armazena no vetor de triplas */
     do {
         /* Se o vetor de triplas estiver cheio, dobra seu tamanho */
         if (v_index == v_size) {
