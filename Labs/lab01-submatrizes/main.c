@@ -38,6 +38,7 @@ int main(void) {
     scanf(" %d %d %d %d", &lines, &columns, &sub_lines, &sub_columns);
 
     int M[lines + 1][columns + 1];
+    
     for (i = 0; i <= lines; i++)
         M[i][0] = 0;
     
