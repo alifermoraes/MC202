@@ -33,3 +33,7 @@ Para a entrada:
 a saída será:  
 Espera media para 20 clientes: 5.4 minutos  
 Numero de clientes que esperaram mais que 10 minutos: 5
+
+### Sugestões
+- Se parecer complicado, pense mais sobre o problema. A solução é simples.
+- Tente resolver com apenas um atendente, depois generalize a solução.
