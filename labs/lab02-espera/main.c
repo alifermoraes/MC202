@@ -33,7 +33,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define DEBUG
 #define MAIOR(a, b) a > b ? a : b
 
 int main(void) {
