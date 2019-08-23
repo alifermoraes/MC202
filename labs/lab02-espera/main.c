@@ -20,8 +20,9 @@
  * N linhas seguintes terão informação sobre um cliente na forma de dois
  * inteiros T e D separados por um espaço. T é o momento, em minutos a partir
  * da abertura da loja, em que o cliente entra na fila e D é o tempo em minutos
- * para atender o cliente. T está no intervalo [0,300] e D está no intervalo [1
- * ,10]. As linhas estão ordenadas pelo momento de entrada dos clientes na fila.
+ * para atender o cliente. T está no intervalo [0,300] e D está no intervalo
+ * [1,10]. As linhas estão ordenadas pelo momento de entrada dos clientes na
+ * fila.
  * 
  * Saída
  * A primeira linha da saída deve informar a espera média ao longo do dia, como
@@ -32,38 +33,84 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define MENOR(a, b) a < b ? a : b
+#define DEBUG
+#define MAIOR(a, b) a > b ? a : b
 
 int main(void) {
-    int attendants_num, custommers_num;
-    int time_since_opening, attendance_time;
-    int waiting_time = 0;
-    int i, aux;
     int *attendants;
-    float mean_waiting;
+    int i, j, aux;
+    int attendants_num, custommers_num;
+    int entrance_time, attendance_time;
+    int more_than_10 = 0, total_waiting = 0, waiting_time;
+    float mean_waiting_time;
 
 
     scanf(" %d %d", &attendants_num, &custommers_num);
-    attendants = calloc(attendants_num * sizeof(int));
+
+    /**
+     * Vetor que armazena o instante ate o qual cada atendente estara ocupado,
+     * inicia todos em 0 pois ao abrir a loja os atendentes nao estao atendendo
+     */
+    attendants = calloc(attendants_num, sizeof(int));
 
     for (i = 0; i < custommers_num; i++) {
-        scanf(" %d %d", &time_since_opening, &attendance_time);
+        scanf(" %d %d", &entrance_time, &attendance_time);
 
-        if (attendants[0] > time_since_opening) {
-            waiting_time += attendants[0] - time_since_opening;
-            attendants[0] = time_since_opening + attendance_time;
+        /**
+         * Calcula o tempo de espera de cada cliente baseado no instante de
+         * entrada do cliente e o instante em que um atendente estara disponivel
+         */
+        waiting_time = attendants[0] - entrance_time;
+        waiting_time = MAIOR(0, waiting_time);
+
+        /* Debugging */
+        #ifdef DEBUG
+            printf("Instante de entrada do cliente #%d: %d, ", i + 1,                  entrance_time);
+            printf("instante de atendimento do cliente #%d: %d, ", i + 1,
+                   MAIOR(attendants[0], entrance_time));
+            printf("espera do cliente #%d: %d\n", i + 1, waiting_time);
+        #endif
+
+        /**
+         * Computa o tempo de espera caso todos os atendentes estejam
+         * ocupados e atribui o tempo de atendimento do cliente ao proximo
+         * atendente que estara disponivel
+         */
+        if (waiting_time) {
+            if (waiting_time > 10) {
+                more_than_10++;
+            }
+
+            total_waiting += waiting_time;
+            attendants[0] += attendance_time;
+        } else { /* Caso haja atendentes disponiveis  */
+            attendants[0] = entrance_time + attendance_time;
         }
 
-        for (i = 0; i < attendants_num - 1; i++) {
-            if (attendants[i] > attendants[i + 1]) {
-                aux = attendants[i + 1];
-                attendants[i + 1] = attendants[i];
-                attendants[i] = aux;
+        /* Debugging */
+        #ifdef DEBUG
+            printf("Espera total: %d\n", total_waiting);
+            printf("Atendente ocupado ate: %d\n", attendants[0]);
+        #endif
+
+        /**
+         * Mantem o vetor de atendentes ordenado de tal forma que os atendentes
+         * que terminarao o atendimento primeiro estejam sempre na primeira
+         * posicao, o proximo na segunda e assim por diante.
+         */
+        for (j = 0; j < attendants_num - 1; j++) {
+            if (attendants[j] > attendants[j + 1]) {
+                aux = attendants[j + 1];
+                attendants[j + 1] = attendants[j];
+                attendants[j] = aux;
             }
         }
     }
 
-    mean_waiting = waiting_time / (float) custommers_num;
+    mean_waiting_time = (float) total_waiting / (custommers_num);
 
-    printf("Mean waiting time: %f\n", mean_waiting);
+    printf("Espera media para %d clientes: %.1f minutos\n", custommers_num,
+           mean_waiting_time);
+    printf("Numero de clientes que esperaram mais que 10 minutos: %d\n",
+           more_than_10);
 }
