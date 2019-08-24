@@ -40,7 +40,7 @@ int main(void) {
     int i, j, aux;
     int attendants_num, custommers_num;
     int entrance_time, attendance_time;
-    int more_than_10 = 0, total_waiting = 0, waiting_time;
+    int more_than_10 = 0, total_waiting = 0, waiting_time, have_waited = 0;
     float mean_waiting_time;
 
 
@@ -61,6 +61,10 @@ int main(void) {
          */
         waiting_time = attendants[0] - entrance_time;
         waiting_time = MAIOR(0, waiting_time);
+        
+        if (waiting_time) {
+            have_waited++;
+        }
 
         /* Debugging */
         #ifdef DEBUG
@@ -106,7 +110,7 @@ int main(void) {
         }
     }
 
-    mean_waiting_time = (float) total_waiting / (custommers_num);
+    mean_waiting_time = (float) (total_waiting - have_waited) / custommers_num;
 
     printf("Espera media para %d clientes: %.1f minutos\n", custommers_num,
            mean_waiting_time);
