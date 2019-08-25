@@ -61,14 +61,15 @@ int main(void) {
          */
         waiting_time = attendants[0] - entrance_time;
         waiting_time = MAIOR(0, waiting_time);
-        
+
         if (waiting_time) {
             have_waited++;
         }
 
         /* Debugging */
         #ifdef DEBUG
-            printf("Instante de entrada do cliente #%d: %d, ", i + 1,                  entrance_time);
+            printf("Instante de entrada do cliente #%d: %d, ", i + 1
+            entrance_time);
             printf("instante de atendimento do cliente #%d: %d, ", i + 1,
                    MAIOR(attendants[0], entrance_time));
             printf("espera do cliente #%d: %d\n", i + 1, waiting_time);
