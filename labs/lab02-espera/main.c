@@ -33,7 +33,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define MAIOR(a, b) a > b ? a : b
+#define GREATER(a, b) a > b ? a : b
 
 int main(void) {
     int *attendants;
@@ -60,12 +60,12 @@ int main(void) {
          * entrada do cliente e o instante em que um atendente estara disponivel
          */
         waiting_time = attendants[0] - entrance_time;
-        waiting_time = MAIOR(0, waiting_time);
+        waiting_time = GREATER(0, waiting_time);
 
         /* Debugging */
         #ifdef DEBUG
-            printf("Instante de entrada do cliente #%d: %d, ", i + 1
-            entrance_time);
+            printf("Instante de entrada do cliente #%d: %d, ", i + 1,
+                    entrance_time);
             printf("instante de atendimento do cliente #%d: %d, ", i + 1,
                    MAIOR(attendants[0], entrance_time));
             printf("espera do cliente #%d: %d\n", i + 1, waiting_time);
@@ -107,10 +107,14 @@ int main(void) {
         }
     }
 
+    free(attendants);
+
     mean_waiting_time = (float) total_waiting  / custommers_num;
 
     printf("Espera media para %d clientes: %.1f minutos\n", custommers_num,
-           mean_waiting_time);
+            mean_waiting_time);
     printf("Numero de clientes que esperaram mais que 10 minutos: %d\n",
            more_than_10);
+
+    return EXIT_SUCCESS;
 }
