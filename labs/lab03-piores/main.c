@@ -42,14 +42,19 @@
 #include <stdio.h>
 #include <string.h>
 
+void free_list(char** list, int size);
+
 int main (void) {
     int keywords, excuses;
-    int i;
-    char** keywords_list;
-    char** excuses_list;
+    int i, j, counter = 1;
+    char* comparison = NULL;
+    char** keywords_list = NULL;
+    char** excuses_list = NULL;
 
     do {
         scanf(" %d %d", &keywords, &excuses);
+
+        printf("Conjunto de desculpas #%d\n", counter);
 
         keywords_list = malloc(keywords * sizeof(char*));
         excuses_list = malloc(excuses * sizeof(char*));
@@ -62,23 +67,34 @@ int main (void) {
         for (i = 0; i < excuses; i++) {
             excuses_list[i] = malloc(sizeof(char[101]));
             scanf(" %[^\n]", excuses_list[i]);
-        }
-        
+            for(j = 0; j < keywords && !comparison; j++) {
+                comparison = strstr(excuses_list[i], keywords_list[j]);
+            }
 
-        for (i = 0; i < keywords; i++) {
-            printf("%s\n", keywords_list[i]);
-            free(keywords_list[i]);
-        }
+            if (comparison) {
+                printf("%s\n", excuses_list[i]);
+            }
 
-        for (i = 0; i < excuses; i++) {
-            printf("%s\n", excuses_list[i]);
-            free(excuses_list[i]);
+            comparison = NULL;
         }
 
-        free(keywords_list);
-        free(excuses_list);
+        printf("\n");
+        counter++;
+
+        free_list(keywords_list, keywords);
+        free_list(excuses_list, excuses);
     } while (fgetc(stdin) != EOF);
 
 
     return EXIT_SUCCESS;
+}
+
+void free_list(char** list, int size) {
+    int i;
+
+    for (i = 0; i < size; i++) {
+        free(list[i]);
+    }
+
+    free(list);
 }
