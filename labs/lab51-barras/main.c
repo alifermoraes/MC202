@@ -56,8 +56,13 @@ int main(void) {
             tmp = NULL;         
         }
         
-        scanf(" (%d,%d,%c)", &v_triples[v_index].number, &v_triples[v_index].frequency, &v_triples[v_index].character);
-        v_index++;
+        scanf(" (%d,%d,%c)", &v_triples[v_index].number,
+              &v_triples[v_index].frequency, &v_triples[v_index].character);
+        
+        if (v_triples[v_index].number) {
+            v_index++;
+        }
+
     } while (getchar() != EOF);
 
     for (i = 0; i < v_index; i++) {
