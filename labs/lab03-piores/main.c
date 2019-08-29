@@ -37,3 +37,48 @@
  * programa deverá imprimi-las na ordem em que aparecem na entrada. Após cada
  * conjunto de saída, seu programa deve imprimir uma linha em branco. 
  */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+int main (void) {
+    int keywords, excuses;
+    int i;
+    char** keywords_list;
+    char** excuses_list;
+
+    do {
+        scanf(" %d %d", &keywords, &excuses);
+
+        keywords_list = malloc(keywords * sizeof(char*));
+        excuses_list = malloc(excuses * sizeof(char*));
+
+        for (i = 0; i < keywords; i++) {
+            keywords_list[i] = malloc(sizeof(char[31]));
+            scanf(" %[^\n]", keywords_list[i]);
+        }
+
+        for (i = 0; i < excuses; i++) {
+            excuses_list[i] = malloc(sizeof(char[101]));
+            scanf(" %[^\n]", excuses_list[i]);
+        }
+        
+
+        for (i = 0; i < keywords; i++) {
+            printf("%s\n", keywords_list[i]);
+            free(keywords_list[i]);
+        }
+
+        for (i = 0; i < excuses; i++) {
+            printf("%s\n", excuses_list[i]);
+            free(excuses_list[i]);
+        }
+
+        free(keywords_list);
+        free(excuses_list);
+    } while (fgetc(stdin) != EOF);
+
+
+    return EXIT_SUCCESS;
+}
