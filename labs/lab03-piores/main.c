@@ -41,34 +41,62 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+
+#define GREATER(a, b) a >= b ? a : b
 
 void free_list(char** list, int size);
 
 int main (void) {
     int keywords, excuses;
     int i, j, counter = 1;
+    char tolower_excuse[101];
     char* comparison = NULL;
-    char** keywords_list = NULL;
-    char** excuses_list = NULL;
+    char **keywords_list = NULL, **excuses_list = NULL;
 
+    /**
+     *  Le cada conjunto de entrada e realiza as operacoes necessarias para
+     * imprimir o que foi pedido
+     */
     do {
         scanf(" %d %d", &keywords, &excuses);
 
-        printf("Conjunto de desculpas #%d\n", counter);
-
+        /**
+         * Aloca dinamicamente vetores de strings para armazenar as
+         * palavras-chave e as desculpas
+         */
         keywords_list = malloc(keywords * sizeof(char*));
         excuses_list = malloc(excuses * sizeof(char*));
 
+        /* Le as palavras-chave e aloca-as dinamicamente no vetor apropriado */
         for (i = 0; i < keywords; i++) {
             keywords_list[i] = malloc(sizeof(char[31]));
             scanf(" %[^\n]", keywords_list[i]);
         }
 
+        printf("Conjunto de desculpas #%d\n", counter);
+
+        /* Le as desculpas e armazena-as no vetor apropriado */
         for (i = 0; i < excuses; i++) {
             excuses_list[i] = malloc(sizeof(char[101]));
             scanf(" %[^\n]", excuses_list[i]);
-            for(j = 0; j < keywords && !comparison; j++) {
-                comparison = strstr(excuses_list[i], keywords_list[j]);
+
+            /**
+             * Converte as letras maiusculas das frases de desculpas em
+             * minuscula antes de buscar a ocorrencia de palavras-chave
+             */
+            for (j = 0; excuses_list[i][j]; j++) {
+                tolower_excuse[j] = tolower(excuses_list[i][j]);
+            }
+
+            tolower_excuse[j] = '\0';
+
+            /**
+             * Procura a ocorrencia de uma palavra-chave na frase ate
+             * encontrar ou ate chegar ao final da frase
+             */
+            for (j = 0; j < keywords && !comparison; j++) {
+                comparison = strstr(tolower_excuse, keywords_list[j]);
             }
 
             if (comparison) {
@@ -81,6 +109,7 @@ int main (void) {
         printf("\n");
         counter++;
 
+        /* Libera a memoria alocada para as listas */
         free_list(keywords_list, keywords);
         free_list(excuses_list, excuses);
     } while (fgetc(stdin) != EOF);
@@ -89,6 +118,10 @@ int main (void) {
     return EXIT_SUCCESS;
 }
 
+/**
+ * Funcao para liberar a memoria alocada para cada posicao das listas de
+ * palavras-chave e de desculpas, e as listas em si
+*/
 void free_list(char** list, int size) {
     int i;
 
