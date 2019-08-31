@@ -49,6 +49,7 @@ void free_list(char** list, int size);
 
 int main (void) {
     int keywords, excuses;
+    int previous, next;
     int i, j, counter = 1, max_occurrences;
     int *keywords_occurrence;
     char tolower_excuse[101];
@@ -56,7 +57,7 @@ int main (void) {
     char **keywords_list = NULL, **excuses_list = NULL;
 
 
-    while (scanf("%d %d ", &keywords, &excuses) != EOF) {
+    while (scanf(" %d %d ", &keywords, &excuses) != EOF) {
         max_occurrences = 0;
         keywords_list = malloc(keywords * sizeof(char*));
         excuses_list = malloc(excuses * sizeof(char*));
@@ -64,12 +65,13 @@ int main (void) {
 
         for (i = 0; i < keywords; i++) {
             keywords_list[i] = malloc(sizeof(char[31]));
-            scanf("%[^\n] ", keywords_list[i]);
+            scanf(" %[^\n] ", keywords_list[i]);
+            
         }
 
         for (i = 0; i < excuses; i++) {
             excuses_list[i] = malloc(sizeof(char[101]));
-            scanf("%[^\n] ", excuses_list[i]);
+            scanf(" %[^\n] ", excuses_list[i]);
             keywords_occurrence[i] = 0;
 
             /**
@@ -89,7 +91,30 @@ int main (void) {
                 comparison = strstr(tolower_excuse, keywords_list[j]);
 
                 if (comparison) { /* Houve ocorrencia */
-                    keywords_occurrence[i]++;
+                    previous = 0;
+                    next = 0;
+
+                    if (comparison > tolower_excuse) {
+                        comparison--;
+                        if ((*comparison >= 65 && *comparison <= 90) ||
+                            (*comparison >= 97 && *comparison <= 122) ||
+                            (*comparison >= 48 && *comparison <= 57)) {
+                                previous = 1;
+                        }
+                        comparison++;
+                    }
+
+                    comparison += (int) strlen(keywords_list[j]);
+
+                    if ((*comparison >= 65 && *comparison <= 90) ||
+                        (*comparison >= 97 && *comparison <= 122) ||
+                        (*comparison >= 48 && *comparison <= 57)) {
+                                next = 1;
+                            }
+
+                    if (!previous && !next) {
+                        keywords_occurrence[i]++;
+                    }
                 }
             }
 
