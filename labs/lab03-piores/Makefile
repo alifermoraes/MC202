@@ -7,7 +7,7 @@ OUT_NAME:= main.o
 all: main
 
 main: main.c Makefile
-		$(CC) $(CFLAGS) main.c -o $(OUT_NAME)
+		scan-build $(CC) $(CFLAGS) main.c -o $(OUT_NAME)
 
 clean:
 		$(RM) $(OUT_NAME)
