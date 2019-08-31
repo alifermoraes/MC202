@@ -41,7 +41,7 @@ int main(void) {
     v_index = 0;
     
     /* Lê as entradas e as armazena no vetor de triplas */
-    do {
+    while (scanf(" (%d,%d,%c) ", &num, &freq, &character) != EOF) {
         /* Se o vetor de triplas estiver cheio, dobra seu tamanho */
         if (v_index == v_size) {
             tmp = v_triples;
@@ -56,14 +56,11 @@ int main(void) {
             tmp = NULL;         
         }
         
-        scanf(" (%d,%d,%c)", &v_triples[v_index].number,
-              &v_triples[v_index].frequency, &v_triples[v_index].character);
-        
-        if (v_triples[v_index].number) {
-            v_index++;
-        }
-
-    } while (getchar() != EOF);
+        v_triples[v_index].number = num;
+        v_triples[v_index].frequency = freq;
+        v_triples[v_index].character = character;
+        v_index++;
+    }
 
     for (i = 0; i < v_index; i++) {
         num = v_triples[i].number;
