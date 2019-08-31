@@ -24,7 +24,7 @@
  * comprimento. Nenhuma desculpa será formada apenas por espaços. 
  *
  * Saida
- * Para cada conjunto de entrada, seu programa você deve imprimir as piores
+ * Para cada conjunto de entrada, seu programa deve imprimir as piores
  * desculpas do conjunto. As piores desculpas são aquelas que contêm o maior
  * número de ocorrências de palavras-chave. Uma palavra-chave ocorre em uma
  * desculpa se ela existir na desculpa de forma contígua e se for delimitada
@@ -32,7 +32,7 @@
  * por um espaço.
  * Para cada conjunto de entrada, seu programa deve imprimir uma única linha
  * com o número do conjunto imediatamente após a cadeia "Conjunto de desculpas
- * #". As linhas seguintes devem) conter as piores desculpas, uma por linha,
+ * #". As linhas seguintes devem conter as piores desculpas, uma por linha,
  * exatamente como aparece na entrada. Se houver mais de uma pior desculpa, seu
  * programa deverá imprimi-las na ordem em que aparecem na entrada. Após cada
  * conjunto de saída, seu programa deve imprimir uma linha em branco. 
@@ -43,85 +43,90 @@
 #include <string.h>
 #include <ctype.h>
 
-#define GREATER(a, b) a >= b ? a : b
+#define GREATER(a, b) a > b ? a : b
 
 void free_list(char** list, int size);
 
 int main (void) {
     int keywords, excuses;
-    int i, j, counter = 1;
+    int i, j, counter = 1, max_occurrences;
+    int *keywords_occurrence;
     char tolower_excuse[101];
     char* comparison = NULL;
     char **keywords_list = NULL, **excuses_list = NULL;
 
-    /**
-     *  Le cada conjunto de entrada e realiza as operacoes necessarias para
-     * imprimir o que foi pedido
-     */
-    do {
-        scanf(" %d %d", &keywords, &excuses);
 
-        /**
-         * Aloca dinamicamente vetores de strings para armazenar as
-         * palavras-chave e as desculpas
-         */
+    while (scanf("%d %d ", &keywords, &excuses) != EOF) {
+        max_occurrences = 0;
         keywords_list = malloc(keywords * sizeof(char*));
         excuses_list = malloc(excuses * sizeof(char*));
+        keywords_occurrence = malloc(excuses * sizeof(int));
 
-        /* Le as palavras-chave e aloca-as dinamicamente no vetor apropriado */
         for (i = 0; i < keywords; i++) {
             keywords_list[i] = malloc(sizeof(char[31]));
-            scanf(" %[^\n]", keywords_list[i]);
+            scanf("%[^\n] ", keywords_list[i]);
         }
 
-        printf("Conjunto de desculpas #%d\n", counter);
-
-        /* Le as desculpas e armazena-as no vetor apropriado */
         for (i = 0; i < excuses; i++) {
             excuses_list[i] = malloc(sizeof(char[101]));
-            scanf(" %[^\n]", excuses_list[i]);
+            scanf("%[^\n] ", excuses_list[i]);
+            keywords_occurrence[i] = 0;
 
             /**
-             * Converte as letras maiusculas das frases de desculpas em
-             * minuscula antes de buscar a ocorrencia de palavras-chave
+             * Normaliza a frase convertendo as letras maiusculas em minusculas
              */
             for (j = 0; excuses_list[i][j]; j++) {
                 tolower_excuse[j] = tolower(excuses_list[i][j]);
             }
-
             tolower_excuse[j] = '\0';
 
             /**
-             * Procura a ocorrencia de uma palavra-chave na frase ate
-             * encontrar ou ate chegar ao final da frase
+             * Procura a ocorrencia de uma palavra-chave na frase normalizada
+             * e caso encontre, adiciona 1 na posicao do vetor
+             * keywords_occurrence associada a posicao da lista de desculpas
              */
-            for (j = 0; j < keywords && !comparison; j++) {
+            for (j = 0; j < keywords; j++) {
                 comparison = strstr(tolower_excuse, keywords_list[j]);
+
+                if (comparison) { /* Houve ocorrencia */
+                    keywords_occurrence[i]++;
+                }
             }
 
-            if (comparison) {
-                printf("%s\n", excuses_list[i]);
-            }
-
-            comparison = NULL;
+            /**
+             * Atribui o maior valor de ocorrencia de palavras-chave de todas
+             * as frases na variavel max_occurrences
+             */
+            max_occurrences = GREATER(max_occurrences, keywords_occurrence[i]);
         }
 
-        printf("\n");
+        if (max_occurrences) {
+            printf("Conjunto de desculpas #%d\n", counter);
+
+            for (i = 0; i < excuses; i++) {
+                if (max_occurrences == keywords_occurrence[i]) {
+                    printf("%s\n", excuses_list[i]);
+                }
+            }
+
+            printf("\n");
+        }
+        
         counter++;
 
-        /* Libera a memoria alocada para as listas */
+        /* Libera toda a memoria alocada */
         free_list(keywords_list, keywords);
         free_list(excuses_list, excuses);
-    } while (fgetc(stdin) != EOF);
-
+        free(keywords_occurrence);
+    }
 
     return EXIT_SUCCESS;
 }
 
 /**
- * Funcao para liberar a memoria alocada para cada posicao das listas de
- * palavras-chave e de desculpas, e as listas em si
-*/
+ * Funcao para liberar a memoria alocada para cada posicao da lista de
+ * palavras-chave e a lista em si
+ */
 void free_list(char** list, int size) {
     int i;
 
