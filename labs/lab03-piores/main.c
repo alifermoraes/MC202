@@ -66,7 +66,6 @@ int main (void) {
         for (i = 0; i < keywords; i++) {
             keywords_list[i] = malloc(sizeof(char[31]));
             scanf(" %[^\n] ", keywords_list[i]);
-            
         }
 
         for (i = 0; i < excuses; i++) {
@@ -96,21 +95,19 @@ int main (void) {
 
                     if (comparison > tolower_excuse) {
                         comparison--;
-                        if ((*comparison >= 65 && *comparison <= 90) ||
-                            (*comparison >= 97 && *comparison <= 122) ||
-                            (*comparison >= 48 && *comparison <= 57)) {
-                                previous = 1;
+
+                        if (*comparison >= 97 && *comparison <= 122) {
+                            previous = 1;
                         }
+
                         comparison++;
                     }
 
                     comparison += (int) strlen(keywords_list[j]);
 
-                    if ((*comparison >= 65 && *comparison <= 90) ||
-                        (*comparison >= 97 && *comparison <= 122) ||
-                        (*comparison >= 48 && *comparison <= 57)) {
-                                next = 1;
-                            }
+                    if (*comparison >= 97 && *comparison <= 122) {
+                        next = 1;
+                    }
 
                     if (!previous && !next) {
                         keywords_occurrence[i]++;
@@ -125,18 +122,18 @@ int main (void) {
             max_occurrences = GREATER(max_occurrences, keywords_occurrence[i]);
         }
 
+        printf("Conjunto de desculpas #%d\n", counter);
+
         if (max_occurrences) {
-            printf("Conjunto de desculpas #%d\n", counter);
 
             for (i = 0; i < excuses; i++) {
                 if (max_occurrences == keywords_occurrence[i]) {
                     printf("%s\n", excuses_list[i]);
                 }
             }
-
-            printf("\n");
         }
-        
+
+        printf("\n");
         counter++;
 
         /* Libera toda a memoria alocada */
