@@ -41,21 +41,21 @@ int main(void) {
     v_index = 0;
     
     /* Lê as entradas e as armazena no vetor de triplas */
-    while (scanf(" (%d,%d,%c) ", &num, &freq, &character) != EOF) {
+    while (scanf("(%d,%d,%c) ", &num, &freq, &character) != EOF) {
         /* Se o vetor de triplas estiver cheio, dobra seu tamanho */
-        if (v_index == v_size) {
+        if (v_index >= v_size) {
             tmp = v_triples;
-            v_size *= 2;
-            v_triples = malloc(v_size * sizeof(Triple));
+            v_triples = malloc(v_size * 2 * sizeof(Triple));
 
             for (i = 0; i < v_size; i++) {
                 v_triples[i] = tmp[i];
             }
-
+            
+            v_size *= 2;
             free(tmp);
-            tmp = NULL;         
+            tmp = NULL;
         }
-        
+
         v_triples[v_index].number = num;
         v_triples[v_index].frequency = freq;
         v_triples[v_index].character = character;
@@ -67,12 +67,12 @@ int main(void) {
         freq = v_triples[i].frequency;
         character = v_triples[i].character;
 
-            printf("%3d |", num);
-            for (j = 0; j < freq; j++) {
-                printf("%c", character);
-            }
+        printf("%3d |", num);
+        for (j = 0; j < freq; j++) {
+            printf("%c", character);
+        }
 
-            printf(" %d\n", freq);
+        printf(" %d\n", freq);
     }
 
     free(v_triples);
