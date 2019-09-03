@@ -48,9 +48,9 @@
 void free_list(char** list, int size);
 
 int main (void) {
-    int keywords, excuses;
-    int previous, next;
-    int i, j, counter = 1, max_occurrences;
+    int keywords, excuses, previous, next;
+    int counter = 1, max_occurrences = 0;
+    int i, j;
     int *keywords_occurrence = NULL;
     char tolower_excuse[101];
     char *comparison = NULL;
@@ -58,7 +58,6 @@ int main (void) {
 
 
     while (scanf("%d %d ", &keywords, &excuses) != EOF) {
-        max_occurrences = 0;
         keywords_list = malloc(keywords * sizeof(char*));
         excuses_list = malloc(excuses * sizeof(char*));
         keywords_occurrence = malloc(excuses * sizeof(int));
@@ -130,15 +129,15 @@ int main (void) {
         }
 
         printf("Conjunto de desculpas #%d\n", counter);
-
         for (i = 0; i < excuses; i++) {
             if (max_occurrences == keywords_occurrence[i]) {
                 printf("%s\n", excuses_list[i]);
             }
         }
-
         printf("\n");
+
         counter++;
+        max_occurrences = 0;
 
         /* Libera toda a memoria alocada */
         free_list(keywords_list, keywords);
