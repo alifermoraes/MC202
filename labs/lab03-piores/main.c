@@ -89,10 +89,14 @@ int main (void) {
             for (j = 0; j < keywords; j++) {
                 comparison = strstr(tolower_excuse, keywords_list[j]);
 
-                if (comparison) { /* Houve ocorrencia */
+                while (comparison) { /* Houve ocorrencia */
                     previous = 0;
                     next = 0;
 
+                    /**
+                     * Checa se o caractere que vem logo antes da palavra e um
+                     * caractere afalbetico
+                     */
                     if (comparison > tolower_excuse) {
                         comparison--;
 
@@ -105,6 +109,10 @@ int main (void) {
 
                     comparison += (int) strlen(keywords_list[j]);
 
+                    /**
+                     * Checa se o caractere que vem logo apos a palavra e
+                     * um caractere alfabetico
+                    */
                     if (*comparison >= 97 && *comparison <= 122) {
                         next = 1;
                     }
@@ -112,6 +120,9 @@ int main (void) {
                     if (!previous && !next) {
                         keywords_occurrence[i]++;
                     }
+
+                    /* Procura a proxima ocorrencia da palavra */
+                    comparison =  strstr(comparison, keywords_list[j]);
                 }
             }
 
