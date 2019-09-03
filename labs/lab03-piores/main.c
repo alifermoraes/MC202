@@ -60,7 +60,7 @@ int main (void) {
     while (scanf("%d %d ", &keywords, &excuses) != EOF) {
         keywords_list = malloc(keywords * sizeof(char*));
         excuses_list = malloc(excuses * sizeof(char*));
-        keywords_occurrence = malloc(excuses * sizeof(int));
+        keywords_occurrence = calloc(excuses, sizeof(int));
 
         for (i = 0; i < keywords; i++) {
             keywords_list[i] = malloc(sizeof(char[31]));
@@ -70,7 +70,6 @@ int main (void) {
         for (i = 0; i < excuses; i++) {
             excuses_list[i] = malloc(sizeof(char[101]));
             scanf("%[^\n] ", excuses_list[i]);
-            keywords_occurrence[i] = 0;
 
             /**
              * Normaliza a frase convertendo as letras maiusculas em minusculas
