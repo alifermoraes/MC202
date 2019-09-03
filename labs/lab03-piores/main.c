@@ -124,13 +124,17 @@ int main (void) {
                     /* Procura a proxima ocorrencia da palavra */
                     comparison =  strstr(comparison, keywords_list[j]);
                 }
-            }
 
-            /**
-             * Atribui o maior valor de ocorrencia de palavras-chave de todas
-             * as frases na variavel max_occurrences
-             */
-            max_occurrences = GREATER(max_occurrences, keywords_occurrence[i]);
+
+
+                /**
+                 * Atribui o maior valor de ocorrencia de palavras-chave de todas
+                 * as frases na variavel max_occurrences
+                 */
+                max_occurrences = GREATER(max_occurrences,
+                                          keywords_occurrence[i]);
+            }
+            
         }
 
         printf("Conjunto de desculpas #%d\n", counter);
