@@ -51,13 +51,13 @@ int main (void) {
     int keywords, excuses;
     int previous, next;
     int i, j, counter = 1, max_occurrences;
-    int *keywords_occurrence;
+    int *keywords_occurrence = NULL;
     char tolower_excuse[101];
-    char* comparison = NULL;
+    char *comparison = NULL;
     char **keywords_list = NULL, **excuses_list = NULL;
 
 
-    while (scanf(" %d %d ", &keywords, &excuses) != EOF) {
+    while (scanf("%d %d ", &keywords, &excuses) != EOF) {
         max_occurrences = 0;
         keywords_list = malloc(keywords * sizeof(char*));
         excuses_list = malloc(excuses * sizeof(char*));
@@ -65,12 +65,12 @@ int main (void) {
 
         for (i = 0; i < keywords; i++) {
             keywords_list[i] = malloc(sizeof(char[31]));
-            scanf(" %[^\n] ", keywords_list[i]);
+            scanf("%[^\n] ", keywords_list[i]);
         }
 
         for (i = 0; i < excuses; i++) {
             excuses_list[i] = malloc(sizeof(char[101]));
-            scanf(" %[^\n] ", excuses_list[i]);
+            scanf("%[^\n] ", excuses_list[i]);
             keywords_occurrence[i] = 0;
 
             /**
@@ -124,12 +124,9 @@ int main (void) {
 
         printf("Conjunto de desculpas #%d\n", counter);
 
-        if (max_occurrences) {
-
-            for (i = 0; i < excuses; i++) {
-                if (max_occurrences == keywords_occurrence[i]) {
-                    printf("%s\n", excuses_list[i]);
-                }
+        for (i = 0; i < excuses; i++) {
+            if (max_occurrences == keywords_occurrence[i]) {
+                printf("%s\n", excuses_list[i]);
             }
         }
 
