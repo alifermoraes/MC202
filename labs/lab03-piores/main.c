@@ -65,7 +65,7 @@ int main (void) {
 
         for (i = 0; i < keywords; i++) {
             keywords_list[i] = malloc(sizeof(char[31]));
-            scanf("%[^\n] ", keywords_list[i]);
+            scanf("%s ", keywords_list[i]);
         }
 
         for (i = 0; i < excuses; i++) {
@@ -98,13 +98,9 @@ int main (void) {
                      * caractere afalbetico
                      */
                     if (comparison > tolower_excuse) {
-                        comparison--;
-
-                        if (*comparison >= 97 && *comparison <= 122) {
+                        if (*(comparison-1) >= 97 && *(comparison-1) <= 122) {
                             previous = 1;
                         }
-
-                        comparison++;
                     }
 
                     comparison += (int) strlen(keywords_list[j]);
@@ -125,16 +121,12 @@ int main (void) {
                     comparison =  strstr(comparison, keywords_list[j]);
                 }
 
-
-
-                /**
-                 * Atribui o maior valor de ocorrencia de palavras-chave de todas
-                 * as frases na variavel max_occurrences
-                 */
-                max_occurrences = GREATER(max_occurrences,
-                                          keywords_occurrence[i]);
-            }
-            
+            /**
+             * Atribui o maior valor de ocorrencia de palavras-chave de todas
+             * as frases na variavel max_occurrences
+             */
+            max_occurrences = GREATER(max_occurrences, keywords_occurrence[i]);
+            }       
         }
 
         printf("Conjunto de desculpas #%d\n", counter);
