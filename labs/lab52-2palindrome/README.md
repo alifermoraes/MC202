@@ -4,7 +4,7 @@ Um 2-palíndrome é uma cadeia de caracteres que tenha pelo menos 2 palíndromes
 
 Seu programa deve copiar somente os 2-palíndromes da entrada para a saída. A entrada para seu programa é uma seqüência de linhas. Cada linha está vazia ou contém uma ou mais palavras separada por um ou mais espaços e somente com letras maiúsculas e sem acentos. Cada linha na entrada contém no máximo 255 caracteres. A saída deve conter um 2-palíndrome por a linha na ordem de ocorrência na entrada.
 
-# Para a entrada
+## Para a entrada
 MOEILIJKHEDEN INVOER  
 VERNEDEREN  
 AMUMA AMAMA MUMMUM  
@@ -13,7 +13,7 @@ ABATRABAR
 DUMMY  
 WORDS  
 
-# A saída é
+## A saída é
 MOEILIJKHEDEN  
 VERNEDEREN  
 AMAMA  
