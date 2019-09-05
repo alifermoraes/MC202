@@ -26,3 +26,58 @@
  * caracteres. A saída deve conter um 2-palíndrome por a linha na ordem de
  * ocorrência na entrada.
  */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(void) {
+    int i, j, word_len, counter, is_repeated;
+    char word_forwards[256], word_backwards[256], substring[4];
+    char *comparison;
+    char **substrings_vector;
+
+    while (scanf("%s ", word_forwards) != EOF) {
+        word_len = strlen(word_forwards);
+        counter = 0;
+
+        /* Inverte a palavra lida e armazena em word_backwards */
+        for (i = 0; i < word_len; i++) {
+            word_backwards[i] = word_forwards[word_len - 1 - i]; 
+        } word_backwards[i] = '\0';
+
+        substrings_vector = malloc((word_len - 2) * sizeof(char*));
+
+        for (i = 0; i < word_len - 2; i++) {
+            is_repeated = 0;
+            strncpy(substring, (word_forwards + i), 3);
+            substring[3] = '\0';
+            substrings_vector[i] = malloc(sizeof(char[4]));
+            strcpy(substrings_vector[i], substring);
+            comparison = strstr(word_backwards, substring);
+
+            for (j = 0; j < i; j++) {
+                if (!(strcmp(substrings_vector[j], substring))) {
+                    is_repeated = 1;
+                }
+            }
+            
+
+            if (comparison && !is_repeated) {
+                counter++;
+            }
+        }
+
+        if (counter >= 2) {
+            printf("%s\n", word_forwards);
+        }
+
+        for (i = 0; i < word_len - 2; i++) {
+            free(substrings_vector[i]);
+        }
+
+        free(substrings_vector);
+    }
+
+    return EXIT_SUCCESS;
+}
