@@ -71,6 +71,8 @@ int main(void) {
         case PRINT_CONTACTS:
             print_contacts(contacts_list, contacts);
             break;
+        case FINISH:
+            break;
         default:
             break;
         }
