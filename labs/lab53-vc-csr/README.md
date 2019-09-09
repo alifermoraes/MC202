@@ -28,9 +28,9 @@ Um elemento M[i,j] pode ser recuperado da seguinte forma:
 
 Por exemplo, a matriz 4 x 8
 
-0  0  0  0  2  0  6  5
-4  0  0  0  0  1  0  0
-0  0  0  0  0  0  0  0
+0  0  0  0  2  0  6  5  
+4  0  0  0  0  1  0  0  
+0  0  0  0  0  0  0  0  
 0  0  0  0  3  0  8  1
 
 é representada como um vetor-de-coordenadas da forma
@@ -39,8 +39,8 @@ Por exemplo, a matriz 4 x 8
 
 e é representada da seguinte forma em CSR
 
-A  =  2  6  5  4  1  3  8  1
-C  =  4  6  7  0  5  4  6  7
+A  =  2  6  5  4  1  3  8  1  
+C  =  4  6  7  0  5  4  6  7  
 R  =  0  3  5  5  8       
 
 Escreva um programa para manipular uma matriz esparsa de inteiros M. Inicialmente seu programa deve ler um conjunto de k triplas (i,j,dado) e armazená-las em um vetor-de-coordenadas. Depois deve converter o vetor de coordenadas em CSR. Finalmente, o programa deve usar a representação CSR para recuperar entradas da matriz esparsa.
