@@ -74,9 +74,55 @@
  * de consultas é terminada por valores -1. 
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 
-int main(void) {
+typedef struct {
+    int c_row;
+    int c_col;
+    int c_val;
+} Coordinates;
 
-    return 0;
+int main(void) {
+    int i, j;
+    int values;
+    int row, col, val;
+    int *A, *C, *R;
+    Coordinates tmp;
+    Coordinates *coordinates;
+
+    scanf(" %d", &values);
+    coordinates = malloc(values * sizeof(Coordinates));
+
+    for (i = 0; i < values; i++) {
+        scanf(" %d %d %d", &coordinates[i].c_row, &coordinates[i].c_col, &coordinates[i].c_val);
+
+        /* Ordena as triplas por linhas e colunas */
+        for (j = i; j > 0; j--) {
+            if ((coordinates[j].c_row < coordinates[j - 1].c_row) ||
+                ((coordinates[j].c_row == coordinates[j - 1].c_row) &&
+                (coordinates[j].c_col < coordinates[j - 1].c_col))) {
+                tmp = coordinates[j];
+                coordinates[j] = coordinates[j - 1];
+                coordinates[j - 1] = tmp;
+            }
+        }
+    }
+
+    A = malloc(values * sizeof(int));
+    C = malloc(values * sizeof(int));
+    R = malloc((coordinates[i - 1].c_row + 2) * sizeof(int));
+
+    /*
+    for (i = 0; i < values; i++) {
+        printf("(%d, %d, %d) ", coordinates[i].c_row, coordinates[i].c_col, coordinates[i].c_val);
+    }
+
+    printf("\n");*/
+    free(A);
+    free(C);
+    free(R);
+    free(coordinates);
+
+    return EXIT_SUCCESS;
 }
