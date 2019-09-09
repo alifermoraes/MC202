@@ -112,15 +112,15 @@ int remove_contact(Contact *list, int elements) {
 
 void search_contact(Contact *list, int elements) {
     int i;
+    int found = 0;
     char name[51];
-    char *found = NULL;
 
     scanf("%s ", name);
     printf("Resultado da busca:\n");
 
     for (i = 0; i < elements; i++) {
-        found = strstr(list[i].name, name);
-        if (found) {
+        if (strstr(list[i].name, name)) {
+            found++;
             printf("(%d) %s\t%s\t%s\t%s\n\n",
                     (i + 1), list[i].name, list[i].address, list[i].phone, list[i].birthday);
         }
