@@ -1,6 +1,9 @@
 # Compiled C files
 *.o
 
+# VSCode json config
+.vscode/
+
 # Test files
 #*.in
 #*.out
