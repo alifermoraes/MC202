@@ -1,6 +1,6 @@
 CC:= clang
 
-CFLAGS:= -Wall -Werror -pedantic-errors -Wextra -fsanitize=address -fno-omit-frame-pointer
+CFLAGS:= -Wall -Werror -pedantic-errors -Wextra -fsanitize=address
 
 OUT_NAME:= main.o
 
