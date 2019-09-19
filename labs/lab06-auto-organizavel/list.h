@@ -39,6 +39,6 @@ typedef struct node {
 
 typedef Node * node_ptr;
 
-void move_to_front(node_ptr *list, int key);
-void transpose(node_ptr *list, int key);
-void count(node_ptr *list, int key);
+int move_to_front(node_ptr *list, int key);
+int transpose(node_ptr *list, int key);
+int count(node_ptr *list, int key);

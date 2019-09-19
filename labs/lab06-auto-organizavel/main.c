@@ -37,6 +37,26 @@
 #include "list.h"
 
 int main(void) {
+    int i;
+    int keys, requests;
+    int mtf = 0, tr = 0, c = 0;
+    node_ptr list = NULL;
+
+    scanf(" %d", &keys);
+
+    list = malloc(keys * sizeof(Node));
+
+    for (i = 0; i < keys - 1; i++) {
+        list[i].key = i + 1;
+        list[i].next = &list[i + 1];
+    }
+
+    list[i].key = i + 1;
+    list[i].next = NULL;
+
+    scanf(" %d", &requests);
+
+    transpose(&list, requests);
 
     return EXIT_SUCCESS;
 }

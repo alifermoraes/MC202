@@ -35,3 +35,61 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "list.h"
+
+int move_to_front(node_ptr *list, int key) {
+    int cost = 2;
+    node_ptr tmp = NULL, aux = NULL;
+
+    if (!(*list)) {
+        return 0;
+    } else if ((*list)->key == key) {
+        return 1;
+    }
+
+    for (tmp = *list; tmp->next && (tmp->next->key != key); tmp = tmp->next) {
+        cost++;
+    }
+
+    aux = tmp->next;
+    tmp->next = aux->next;
+    aux->next = *list;
+    *list = aux;
+    
+    return cost;
+}
+
+int transpose(node_ptr *list, int key) {
+    int cost = 3;
+    node_ptr prev = NULL, tmp = NULL, aux = NULL;
+
+    if(!(*list)) {
+        return 0;
+    } else if ((*list)->key == key) {
+        return 1;
+    }
+
+    for (prev = *list; prev->next && prev->next->next && (prev->next->next->key != key); prev = prev->next) {
+        cost++;
+    }
+
+    tmp = prev->next;
+    aux = tmp->next;
+    tmp->next = aux->next;
+    aux->next = tmp;
+    prev->next = aux;
+
+    for (tmp = *list; tmp; tmp = tmp->next) {
+        printf("%d ", tmp->key);
+    }
+
+    printf("\n%d\n", cost);
+
+    return cost;
+}
+
+int count(node_ptr *list, int key) {
+    int cost = 0;
+    node_ptr tmp;
+
+    return cost;
+}
