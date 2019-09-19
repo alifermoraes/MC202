@@ -14,7 +14,7 @@ Algumas estratégias de permutação foram propostas na literatura. As mais usad
 
 Por exemplo, suponha que a lista L tenha registros com chaves (1,2,3,4,5) nesta ordem e suponha que a seqüência de requisições para recuperar registros seja (4,2,2,4,3,1,3). Abaixo aparecem as modificações na lista e os custos para cada estratégia. O custo é medido como a soma do número de nós visitados para recuperar o registro com a chave requisitada, sem contar as operações realizadas na reorganização da lista.
 
-### Move-to-front
+#### Move-to-front
 
 - Lista inicial L=(1,2,3,4,5)
 - Requisição = 4. Custo = 4. Lista L=(4,1,2,3,5)
@@ -27,7 +27,7 @@ Por exemplo, suponha que a lista L tenha registros com chaves (1,2,3,4,5) nesta 
 
 Custo total = 4+3+1+2+4+4+2 = 20.
 
-### Transpose
+#### Transpose
 
 - Lista inicial L=(1,2,3,4,5)
 - Requisição = 4. Custo = 4. Lista L=(1,2,4,3,5)
@@ -40,7 +40,7 @@ Custo total = 4+3+1+2+4+4+2 = 20.
 
 Custo total = 4+2+1+3+4+4+4 = 22.
 
-### Count
+#### Count
 
 - Lista inicial L=(1,2,3,4,5). Contador C=(0,0,0,0,0)
 - Requisição = 4. Custo = 4. Lista L=(4,1,2,3,5). Contador C=(1,0,0,0,0)
