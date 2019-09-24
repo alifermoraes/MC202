@@ -36,47 +36,78 @@
 #include <stdio.h>
 #include "list.h"
 
-int move_to_front(node_ptr *list, int key) {
-    int cost = 2;
-    node_ptr tmp = NULL, aux = NULL;
+node_ptr create_list(int size) {
+    int i;
+    node_ptr list = NULL, tmp = NULL;
 
-    if (!(*list)) {
-        return 0;
-    } else if ((*list)->key == key) {
-        return 1;
+    list = malloc(sizeof(Node));
+    tmp = list;
+
+    for (i = 1; i < size; i++) {
+        tmp->key = i;
+        tmp->next = malloc(sizeof(Node));
+        tmp = tmp->next;
     }
 
-    for (tmp = *list; tmp->next && (tmp->next->key != key); tmp = tmp->next) {
+    tmp->key = i;
+    tmp->next = NULL;
+
+    return list;
+}
+
+void destroy_list(ptr_node list) {
+    if (list) {
+        if (list->next) {
+            destroy_list(list->next);
+        }
+
+        free(list);
+    }
+}
+
+int move_to_front(node_ptr *list, int key) {
+    int cost = 1;
+    node_ptr tmp = NULL, current = NULL;
+
+    for (current = *list; current && (current->key != key); current = current->next) {
+        tmp = current;
         cost++;
     }
 
-    aux = tmp->next;
-    tmp->next = aux->next;
-    aux->next = *list;
-    *list = aux;
-    
+    if (!current) {
+        return 0;
+    } else if (tmp) {
+        tmp->next = current->next;
+        current->next = *list;
+        *list = current;
+    }
+
     return cost;
 }
 
 int transpose(node_ptr *list, int key) {
-    int cost = 3;
-    node_ptr prev = NULL, tmp = NULL, aux = NULL;
+    int cost = 1;
+    node_ptr tmp = NULL, prev = NULL, current = NULL;
 
-    if(!(*list)) {
-        return 0;
-    } else if ((*list)->key == key) {
-        return 1;
-    }
-
-    for (prev = *list; prev->next && prev->next->next && (prev->next->next->key != key); prev = prev->next) {
+    for (current = *list; current && (current->key != key); current = current->next) {
+        tmp = prev;
+        prev = current;
         cost++;
     }
 
-    tmp = prev->next;
-    aux = tmp->next;
-    tmp->next = aux->next;
-    aux->next = tmp;
-    prev->next = aux;
+    if (!current) {
+        return 0;
+    } else if (!prev) {
+        return 1;
+    } else if (!tmp) {
+        prev->next = current->next;
+        current->next = prev;
+        *list = current;
+    } else {
+        prev->next = current->next;
+        current->next = prev;
+        tmp->next = current;
+    }
 
     for (tmp = *list; tmp; tmp = tmp->next) {
         printf("%d ", tmp->key);
@@ -92,4 +123,13 @@ int count(node_ptr *list, int key) {
     node_ptr tmp;
 
     return cost;
+}
+
+void print_list(node_ptr list) {
+    while (list) {
+        printf("%d ", list->key);
+        list = list->next;
+    }
+
+    printf("\n");
 }

@@ -39,24 +39,13 @@
 int main(void) {
     int i;
     int keys, requests;
-    int mtf = 0, tr = 0, c = 0;
+    int mtf = 0/*, tr = 0, c = 0*/;
     node_ptr list = NULL;
 
     scanf(" %d", &keys);
 
-    list = malloc(keys * sizeof(Node));
-
-    for (i = 0; i < keys - 1; i++) {
-        list[i].key = i + 1;
-        list[i].next = &list[i + 1];
-    }
-
-    list[i].key = i + 1;
-    list[i].next = NULL;
-
-    scanf(" %d", &requests);
-
-    transpose(&list, requests);
+    list = create_list(keys);
+    print_list(list);
 
     return EXIT_SUCCESS;
 }

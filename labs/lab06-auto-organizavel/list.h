@@ -39,6 +39,9 @@ typedef struct node {
 
 typedef Node * node_ptr;
 
+node_ptr create_list(int size);
+void destroy_list(ptr_node list);
 int move_to_front(node_ptr *list, int key);
 int transpose(node_ptr *list, int key);
 int count(node_ptr *list, int key);
+void print_list(node_ptr list);
