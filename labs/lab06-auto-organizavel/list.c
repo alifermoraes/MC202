@@ -36,7 +36,7 @@
 #include <stdio.h>
 #include "list.h"
 
-node_ptr create_list(int size) {
+node_ptr list_create(int size) {
     int i;
     node_ptr list = NULL, tmp = NULL;
 
@@ -45,39 +45,41 @@ node_ptr create_list(int size) {
 
     for (i = 1; i < size; i++) {
         tmp->key = i;
+        tmp->counter = 0;
         tmp->next = malloc(sizeof(Node));
         tmp = tmp->next;
     }
 
     tmp->key = i;
+    tmp->counter = 0;
     tmp->next = NULL;
 
     return list;
 }
 
-void destroy_list(ptr_node list) {
+void list_destroy(node_ptr list) {
     if (list) {
         if (list->next) {
-            destroy_list(list->next);
+            list_destroy(list->next);
         }
 
         free(list);
     }
 }
 
-int move_to_front(node_ptr *list, int key) {
+int list_move_to_front(node_ptr *list, int key) {
     int cost = 1;
-    node_ptr tmp = NULL, current = NULL;
+    node_ptr prev = NULL, current = NULL;
 
     for (current = *list; current && (current->key != key); current = current->next) {
-        tmp = current;
+        prev = current;
         cost++;
     }
 
-    if (!current) {
+    if (!current) { /* lista vazia ou valor nao encontrado */
         return 0;
-    } else if (tmp) {
-        tmp->next = current->next;
+    } else if (prev) { /* move o item para o inicio da lista rearranjando os ponteiros */
+        prev->next = current->next;
         current->next = *list;
         *list = current;
     }
@@ -85,7 +87,7 @@ int move_to_front(node_ptr *list, int key) {
     return cost;
 }
 
-int transpose(node_ptr *list, int key) {
+int list_transpose(node_ptr *list, int key) {
     int cost = 1;
     node_ptr tmp = NULL, prev = NULL, current = NULL;
 
@@ -95,41 +97,55 @@ int transpose(node_ptr *list, int key) {
         cost++;
     }
 
-    if (!current) {
+    if (!current) { /* lista vazia ou valor nao encontrado */
         return 0;
-    } else if (!prev) {
+    } else if (!prev) { /* valor no primeiro elemento da lista, nao precisa ser movido */
         return 1;
-    } else if (!tmp) {
+    } else if (!tmp) { /* valor na segunda posicao da lista, precisa ser movido para o inicio */
         prev->next = current->next;
         current->next = prev;
         *list = current;
-    } else {
+    } else { /* caso geral, move o item correspondente para a esquerda */
         prev->next = current->next;
         current->next = prev;
         tmp->next = current;
     }
 
-    for (tmp = *list; tmp; tmp = tmp->next) {
-        printf("%d ", tmp->key);
-    }
-
-    printf("\n%d\n", cost);
-
     return cost;
 }
 
-int count(node_ptr *list, int key) {
-    int cost = 0;
-    node_ptr tmp;
+int list_count(node_ptr *list, int key) {
+    int cost = 1;
+    node_ptr item = NULL, prev = NULL, current = NULL;
 
-    return cost;
-}
-
-void print_list(node_ptr list) {
-    while (list) {
-        printf("%d ", list->key);
-        list = list->next;
+    for (item = *list; item && (item->key != key); item = item->next) {
+        prev = item;
+        cost++;
     }
 
-    printf("\n");
+    if (!item) { /* lista vazia ou item nao encontrado */
+        return 0;
+    } else if (!prev) { /* item na primeira posicao da lista */
+        item->counter++;
+        return 1;
+    } else { /* caso geral, remove o item da lista e adiciona-o na nova posicao */
+        item->counter++;
+        prev->next = item->next;
+        prev = NULL;
+
+        /* percorre a lista novamente para encontrar onde o item deve ser realocado */
+        for (current = *list; current && (current->counter > item->counter); current = current->next) {
+            prev = current;
+        }
+        
+        item->next = current;
+
+        if (!prev) { /* item deve ser adicionado na primeira posicao da lista */
+            *list = item;
+        } else { /* caso geral */
+            prev->next = item;
+        }
+    }
+
+    return cost;
 }

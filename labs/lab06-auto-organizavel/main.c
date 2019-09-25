@@ -37,15 +37,47 @@
 #include "list.h"
 
 int main(void) {
-    int i;
+    int i, count = 0;
     int keys, requests;
-    int mtf = 0/*, tr = 0, c = 0*/;
+    int *requests_list;
+    int mtf = 0, tr = 0, c = 0;
     node_ptr list = NULL;
 
     scanf(" %d", &keys);
+    scanf(" %d", &requests);
 
-    list = create_list(keys);
-    print_list(list);
+    requests_list = malloc(requests * sizeof(int));
+
+    for (i = 0; i < requests; i++) {
+        scanf(" %d", &requests_list[i]);
+    }
+
+
+    while (count < 3) {
+        list = list_create(keys);
+
+        for (i = 0; i < requests; i++) {
+            switch(count) {
+            case MTF:
+                mtf += list_move_to_front(&list, requests_list[i]);
+                break;
+            case TR:
+                tr += list_transpose(&list, requests_list[i]);
+                break;
+            case C:
+                c += list_count(&list, requests_list[i]);
+                break;
+            default:
+                break;
+            }
+        }
+
+        list_destroy(list);
+        count++;
+    }
+
+    free(requests_list);
+    printf("%d %d %d\n", mtf, tr, c);
 
     return EXIT_SUCCESS;
 }

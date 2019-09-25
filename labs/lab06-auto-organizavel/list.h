@@ -32,16 +32,25 @@
  * contador menor ou igual ao dele. 
  */
 
+#ifndef _LIST_H_
+#define _LIST_H_
+
+#define MTF 0
+#define TR  1
+#define C   2
+
 typedef struct node {
     int key;
+    int counter;
     struct node *next;
 } Node;
 
 typedef Node * node_ptr;
 
-node_ptr create_list(int size);
-void destroy_list(ptr_node list);
-int move_to_front(node_ptr *list, int key);
-int transpose(node_ptr *list, int key);
-int count(node_ptr *list, int key);
-void print_list(node_ptr list);
+node_ptr list_create(int size);
+void list_destroy(node_ptr list);
+int list_move_to_front(node_ptr *list, int key);
+int list_transpose(node_ptr *list, int key);
+int list_count(node_ptr *list, int key);
+
+#endif /* define _LIST_H_ */
