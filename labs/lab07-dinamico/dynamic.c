@@ -42,3 +42,86 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "list.h"
+
+Array dynamic_create(void) {
+    Array array;
+
+    array.data = malloc(sizeof(int));
+    array.head = 0;
+    array.size = 0;
+    array.max_size = 1;
+
+    return array;
+}
+
+void dynamic_inject(Array *array, int data) {
+    if (!(array->size)) {
+        array->data[0] = data;
+        array->head = 0;
+    } else {
+        if (array->size == array->max_size) {
+            dynamic_resize(array, INC);
+        }
+
+        array->head = ((array->head - 1) + array->max_size) % array->max_size;
+        array->data[array->head] = data;
+    }
+
+    array->size++;
+}
+
+void dynamic_eject(Array *array) {
+    if (array->size) {
+        data = array->data[array->head];
+        array->head = (array->head + 1) % array->max_size;
+        array->size--;
+    }
+}
+
+void dynamic_print_head(Array array) {
+    if (array.size) {
+        printf("%d\n", array.data[array.head]);
+    }
+}
+
+void dynamic_push(Array *array, int data) {
+    int tail;
+
+    if (!(array->size)) {
+        array->data[0] = data;
+        array->head = 0;
+    } else {
+        if (array->size == array->max_size) {
+            dynamic_resize(array, INC);
+        }
+
+        tail = (array->head + array->size) % array->max_size;
+        array->data[tail] = data;
+    }
+
+    array->size++;
+}
+
+void dynamic_pop(Array *array) {
+    if (array->size) {
+        array->size--;
+    }
+}
+
+void dynamic_print_tail(Array array) {
+    int tail;
+
+    tail = (array.head + array.size - 1) % array.max_size;
+
+    if (array.size) {
+        printf("%d\n", array.data[tail]);
+    }
+}
+
+int dynamic_is_empty(Array array) {
+    return array.size;
+}
+
+static void dynamic_resize(Array *array, int inc_dec) {
+    /* Implementar */
+}

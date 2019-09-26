@@ -42,6 +42,23 @@
 #ifndef _DYNAMIC_H
 #define _DYNAMIC_H
 
+#define INC 1
+#define DEC 0
 
+typedef struct array {
+    int *data;
+    int head;
+    int size;
+    int max_size;
+} Array;
+
+Array dynamic_create(void);
+void dynamic_inject(Array *array, int data);
+void dynamic_eject(Array *array);
+void dynamic_print_head(Array array);
+void dynamic_push(Array *array, int data);
+void dynamic_pop(Array *array);
+void dynamic_print_tail(Array array);
+int dynamic_is_empty(Array array);
 
 #endif /* _DYNAMIC_H */
