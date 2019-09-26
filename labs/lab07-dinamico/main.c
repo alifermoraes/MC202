@@ -44,6 +44,58 @@
 #include "dynamic.h"
 
 int main(void) {
+    char instruction[13], operation;
+    int data;
+    Array array;
+
+    array = dynamic_create();
+
+    do {
+        scanf(" %s", instruction);
+        operation = dynamic_decoder(instruction);
+
+        if ((operation == INSERT_FIRST) || (operation == INSERT_LAST)) {
+            scanf(" %d", &data);
+        }
+
+        switch (operation) {
+        case INSERT_FIRST:
+            dynamic_inject(&array, data);
+            break;
+
+        case REMOVE_FIRST:
+            dynamic_eject(&array);
+            break;
+
+        case PRINT_FIRST:
+            dynamic_print_head(array);
+            break;
+
+        case INSERT_LAST:
+            dynamic_push(&array, data);
+            break;
+
+        case REMOVE_LAST:
+            dynamic_pop(&array);
+            break;
+
+        case PRINT_LAST:
+            dynamic_print_tail(array);
+            break;
+
+        case IS_EMPTY:
+            dynamic_is_empty(array);
+            break;
+
+        case EXIT:
+            free(array.data);
+            break;
+        
+        default:
+            break;
+        }
+
+    } while (operation != EXIT);
 
     return EXIT_SUCCESS;
 }

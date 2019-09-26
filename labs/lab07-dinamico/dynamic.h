@@ -42,8 +42,16 @@
 #ifndef _DYNAMIC_H
 #define _DYNAMIC_H
 
-#define INC 1
-#define DEC 0
+#define INSERT_FIRST    1
+#define REMOVE_FIRST    2
+#define PRINT_FIRST     3
+#define INSERT_LAST     4
+#define REMOVE_LAST     5
+#define PRINT_LAST      6
+#define IS_EMPTY        7
+#define EXIT            0
+#define INC             1
+#define DEC             0
 
 typedef struct array {
     int *data;
@@ -59,6 +67,8 @@ void dynamic_print_head(Array array);
 void dynamic_push(Array *array, int data);
 void dynamic_pop(Array *array);
 void dynamic_print_tail(Array array);
-int dynamic_is_empty(Array array);
+void dynamic_is_empty(Array array);
+char dynamic_decoder(char *instruction);
+int dynamic_resize(Array *array, int inc_dec);
 
 #endif /* _DYNAMIC_H */

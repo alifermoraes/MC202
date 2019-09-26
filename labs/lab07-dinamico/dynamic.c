@@ -41,15 +41,20 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "list.h"
+#include <string.h>
+#include "dynamic.h"
 
 Array dynamic_create(void) {
     Array array;
 
-    array.data = malloc(sizeof(int));
     array.head = 0;
     array.size = 0;
     array.max_size = 1;
+    array.data = calloc(1, sizeof(int));
+
+    if (!array.data) {
+        exit(1);
+    }
 
     return array;
 }
@@ -60,7 +65,10 @@ void dynamic_inject(Array *array, int data) {
         array->head = 0;
     } else {
         if (array->size == array->max_size) {
-            dynamic_resize(array, INC);
+            if (!dynamic_resize(array, INC)) {
+                free(array->data);
+                exit(1);
+            }
         }
 
         array->head = ((array->head - 1) + array->max_size) % array->max_size;
@@ -72,9 +80,15 @@ void dynamic_inject(Array *array, int data) {
 
 void dynamic_eject(Array *array) {
     if (array->size) {
-        data = array->data[array->head];
         array->head = (array->head + 1) % array->max_size;
         array->size--;
+
+        if (array->size <= (array->max_size / 4)) {
+            if (!dynamic_resize(array, DEC)) {
+                free(array->data);
+                exit(1);
+            }
+        }
     }
 }
 
@@ -92,7 +106,10 @@ void dynamic_push(Array *array, int data) {
         array->head = 0;
     } else {
         if (array->size == array->max_size) {
-            dynamic_resize(array, INC);
+            if (!dynamic_resize(array, INC)) {
+                free(array->data);
+                exit(1);
+            }
         }
 
         tail = (array->head + array->size) % array->max_size;
@@ -105,23 +122,92 @@ void dynamic_push(Array *array, int data) {
 void dynamic_pop(Array *array) {
     if (array->size) {
         array->size--;
+
+        if (array->size <= (array->max_size / 4)) {
+            if (!dynamic_resize(array, DEC)) {
+                free(array->data);
+                exit(1);
+            }
+        }
     }
 }
 
 void dynamic_print_tail(Array array) {
     int tail;
 
-    tail = (array.head + array.size - 1) % array.max_size;
-
     if (array.size) {
+        tail = (array.head + array.size - 1) % array.max_size;
         printf("%d\n", array.data[tail]);
     }
 }
 
-int dynamic_is_empty(Array array) {
-    return array.size;
+void dynamic_is_empty(Array array) {
+    if (array.size) {
+        printf("no\n");
+    } else {
+        printf("yes\n");
+    }
 }
 
-static void dynamic_resize(Array *array, int inc_dec) {
-    /* Implementar */
+char dynamic_decoder(char *instruction) {
+    if (!strcmp(instruction, "insert-first")) {
+        return INSERT_FIRST;
+    } else if (!strcmp(instruction, "remove-first")) {
+        return REMOVE_FIRST;
+    } else if (!strcmp(instruction, "print-first")) {
+        return PRINT_FIRST;
+    } else if (!strcmp(instruction, "insert-last")) {
+        return INSERT_LAST;
+    } else if (!strcmp(instruction, "remove-last")) {
+        return REMOVE_LAST;
+    } else if (!strcmp(instruction, "print-last")) {
+        return PRINT_LAST;
+    } else if (!strcmp(instruction, "is-empty")) {
+        return IS_EMPTY;
+    } else if (!strcmp(instruction, "exit")) {
+        return EXIT;
+    } else {
+        return -1;
+    }
+}
+
+int dynamic_resize(Array *array, int inc_dec) {
+    int i, j, tail;
+    int *tmp;
+
+
+    tail = (array->head + array->size - 1) % array->max_size;
+
+
+    if (inc_dec) {
+        tmp = calloc((2 * array->max_size), sizeof(int));
+
+        if(!tmp) {
+            return 0;
+        }
+
+        for (i = array->head, j = 0; i != tail; i = (i + 1) % array->max_size, j++) {
+            tmp[j] = array->data[i];
+        } tmp[j] = array->data[i];
+
+        array->max_size *= 2;
+    } else {
+        tmp = calloc((array->max_size / 2), sizeof(int));
+
+        if (!tmp) {
+            return 0;
+        }
+
+        for (i = array->head, j = 0; i != tail; i = (i + 1) % array->max_size, j++) {
+            tmp[j] = array->data[i];
+        } tmp[j] = array->data[i];
+
+        array->max_size /= 2;
+    }
+
+    free(array->data);
+    array->data = tmp;
+    array->head = 0;
+
+    return 1;
 }

@@ -1,0 +1,12 @@
+is-empty
+insert-last 101
+insert-last 51
+insert-last 13
+is-empty
+print-last
+print-first
+remove-first
+remove-last
+print-first
+print-last
+exit

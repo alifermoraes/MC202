@@ -1,0 +1,36 @@
+insert-last -1
+insert-last 2
+insert-last -3
+insert-last 4
+insert-last -5
+insert-first -1
+insert-first 2
+insert-first -3
+insert-first 4
+insert-first -5
+print-last
+remove-last
+print-first
+remove-first
+print-last
+remove-last
+print-first
+remove-first
+print-last
+remove-last
+print-first
+remove-first
+print-last
+remove-last
+print-first
+remove-first
+print-last
+remove-last
+print-first
+remove-first
+print-last
+remove-last
+print-first
+remove-first
+is-empty
+exit

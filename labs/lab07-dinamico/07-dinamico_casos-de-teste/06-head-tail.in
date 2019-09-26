@@ -1,0 +1,102 @@
+insert-last 1
+insert-last 2
+insert-last 3
+insert-last 4
+insert-last 5
+insert-last 6
+insert-last 7
+insert-last 8
+insert-last 9
+insert-last 10
+insert-first 1
+insert-first 2
+insert-first 3
+insert-first 4
+insert-first 5
+insert-first 6
+insert-first 7
+insert-first 8
+insert-first 9
+insert-first 10
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-first
+remove-last
+is-empty
+print-first
+print-last
+remove-first
+remove-last
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-first
+remove-last
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+print-first
+print-last
+remove-last
+remove-first
+is-empty
+exit
