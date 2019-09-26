@@ -44,28 +44,28 @@ Obviamente, quando o vetor for redimensionado, o conteúdo da sequência e a ord
 
 A entrada é composta por uma sucessão de comandos, um por linha. Os possíveis comandos estão descritos abaixo.
 
-- insert-first inteiro
+- insert-first inteiro  
   Insere um inteiro no início da sequência.
 
-- remove-first
+- remove-first  
   Remove o inteiro no início da sequência. Se a sequência estiver vazia, não faz nada.
 
-- print-first
+- print-first  
   Imprime o inteiro no início da sequência. Se a sequência estiver vazia, não faz nada.
 
-- insert-last inteiro
+- insert-last inteiro  
   Insere um inteiro no fim da sequência.
 
-- remove-last
+- remove-last  
   Remove o inteiro no fim da sequência. Se a sequência estiver vazia, não faz nada.
 
-- print-last
+- print-last  
   Imprime o inteiro no fim da sequência. Se a sequência estiver vazia, não faz nada.
 
-- is-empty
+- is-empty  
   Imprime "yes" se a sequência estiver vazia e "no" se não estiver.
 
-- exit
+- exit  
   Termina o programa. 
 
 Nenhuma função deve mover os elementos do vetor para a direita ou para a esquerda.
