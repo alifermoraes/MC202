@@ -44,13 +44,15 @@
 #include <string.h>
 #include "dynamic.h"
 
+static int dynamic_resize(Array *array, int inc_dec);
+
 Array dynamic_create(void) {
     Array array;
 
     array.head = 0;
     array.size = 0;
     array.max_size = 1;
-    array.data = calloc(1, sizeof(int));
+    array.data = malloc(sizeof(int));
 
     if (!array.data) {
         exit(1);
@@ -60,12 +62,12 @@ Array dynamic_create(void) {
 }
 
 void dynamic_inject(Array *array, int data) {
-    if (!(array->size)) {
+    if (!(array->size)) { /* Array vazio, move head para a posicao 0 e adiciona o item. */
         array->data[0] = data;
         array->head = 0;
     } else {
         if (array->size == array->max_size) {
-            if (!dynamic_resize(array, INC)) {
+            if (!dynamic_resize(array, INC)) { /* Dobra a capacidade do array */
                 free(array->data);
                 exit(1);
             }
@@ -83,7 +85,8 @@ void dynamic_eject(Array *array) {
         array->head = (array->head + 1) % array->max_size;
         array->size--;
 
-        if (array->size <= (array->max_size / 4)) {
+        /* Se a quantidade ocupada for <= 1/4 do tamanho do array, redimensiona-o. */
+        if (array->size && array->size <= (array->max_size / 4)) {
             if (!dynamic_resize(array, DEC)) {
                 free(array->data);
                 exit(1);
@@ -101,12 +104,12 @@ void dynamic_print_head(Array array) {
 void dynamic_push(Array *array, int data) {
     int tail;
 
-    if (!(array->size)) {
+    if (!(array->size)) { /* Array vazio, move head para a posicao 0 e adiciona o item. */
         array->data[0] = data;
         array->head = 0;
     } else {
         if (array->size == array->max_size) {
-            if (!dynamic_resize(array, INC)) {
+            if (!dynamic_resize(array, INC)) { /* Dobra a capacidade do array */
                 free(array->data);
                 exit(1);
             }
@@ -123,7 +126,8 @@ void dynamic_pop(Array *array) {
     if (array->size) {
         array->size--;
 
-        if (array->size <= (array->max_size / 4)) {
+        /* Se a quantidade ocupada for <= 1/4 do tamanho do array, redimensiona-o. */
+        if (array->size && array->size <= (array->max_size / 4)) {
             if (!dynamic_resize(array, DEC)) {
                 free(array->data);
                 exit(1);
@@ -149,6 +153,7 @@ void dynamic_is_empty(Array array) {
     }
 }
 
+/* Converte a instrucao em texto em um inteiro correspondente definido em dynamic.h. */
 char dynamic_decoder(char *instruction) {
     if (!strcmp(instruction, "insert-first")) {
         return INSERT_FIRST;
@@ -171,39 +176,36 @@ char dynamic_decoder(char *instruction) {
     }
 }
 
-int dynamic_resize(Array *array, int inc_dec) {
-    int i, j, tail;
+/**
+ * Funcao para redimensionar o vetor caso seja necessario
+ * (size == max_size || size <= (max_size / 4))
+ * Visivel apenas no arquivo dynamic.c.
+ */
+static int dynamic_resize(Array *array, int inc_dec) {
+    int i, j;
+    int prev_max_size, tail;
     int *tmp;
 
-
+    prev_max_size = array->max_size;
     tail = (array->head + array->size - 1) % array->max_size;
 
-
     if (inc_dec) {
-        tmp = calloc((2 * array->max_size), sizeof(int));
-
-        if(!tmp) {
-            return 0;
-        }
-
-        for (i = array->head, j = 0; i != tail; i = (i + 1) % array->max_size, j++) {
-            tmp[j] = array->data[i];
-        } tmp[j] = array->data[i];
-
         array->max_size *= 2;
     } else {
-        tmp = calloc((array->max_size / 2), sizeof(int));
-
-        if (!tmp) {
-            return 0;
-        }
-
-        for (i = array->head, j = 0; i != tail; i = (i + 1) % array->max_size, j++) {
-            tmp[j] = array->data[i];
-        } tmp[j] = array->data[i];
-
         array->max_size /= 2;
     }
+
+    tmp = malloc(array->max_size * sizeof(int));
+
+    if(!tmp) {
+        array->max_size = prev_max_size;
+        return 0;
+    }
+
+    /* Copia os items do array antigo no novo array de maneira ordenada (head na posicao 0). */
+    for (i = array->head, j = 0; i != tail; i = (i + 1) % prev_max_size, j++) {
+        tmp[j] = array->data[i];
+    } tmp[j] = array->data[i];
 
     free(array->data);
     array->data = tmp;

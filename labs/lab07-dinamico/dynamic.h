@@ -69,6 +69,5 @@ void dynamic_pop(Array *array);
 void dynamic_print_tail(Array array);
 void dynamic_is_empty(Array array);
 char dynamic_decoder(char *instruction);
-int dynamic_resize(Array *array, int inc_dec);
 
 #endif /* _DYNAMIC_H */

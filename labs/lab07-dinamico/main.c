@@ -54,12 +54,9 @@ int main(void) {
         scanf(" %s", instruction);
         operation = dynamic_decoder(instruction);
 
-        if ((operation == INSERT_FIRST) || (operation == INSERT_LAST)) {
-            scanf(" %d", &data);
-        }
-
         switch (operation) {
         case INSERT_FIRST:
+            scanf(" %d", &data);
             dynamic_inject(&array, data);
             break;
 
@@ -72,6 +69,7 @@ int main(void) {
             break;
 
         case INSERT_LAST:
+            scanf(" %d", &data);
             dynamic_push(&array, data);
             break;
 
