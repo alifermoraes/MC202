@@ -44,3 +44,148 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "doubly_list.h"
+
+static void doubly_iterate(Node **current, Node **previous, int iterations);
+
+List* create_list(void) {
+    List *list = NULL;
+
+    list = malloc(sizeof(List));
+
+    if (!list) exit(1);
+
+    list->head = NULL;
+    list->tail = NULL;
+    list->size = 0;
+
+    return list;
+}
+
+void doubly_insert(List *list) {
+    Node *new = NULL, *current = NULL, *prev = NULL;
+    int pos;
+
+    new = malloc(sizeof(Node));
+
+    if (!new) exit(1);
+
+    scanf(" %d %lf", &pos, &new->data);
+    new->A = NULL;
+    new->B = NULL;
+
+    if (!list->size) { /* lista vazia. */
+        list->head = new;
+        list->tail = new;
+    } else {
+        if (!pos) { /* insere na primeira posição */
+            new->A = list->head->A;
+            new->B = list->head;
+            list->head->A = new;
+            list->head = new;
+        } else if (pos >= list->size) { /* posição inválida -> insere no fim da lista. */
+            new->A = list->tail;
+            list->tail->B = new;
+            list->tail = new;
+        } else {
+            current = list->head;
+             /**
+              * Percorre a lista considerando a possibilidade de que algum trecho da lista pode
+              * ter sido invertido, até chegar à posição onde o novo nó deve ser adicionado.
+              */
+            doubly_iterate(&current, &prev, pos);
+
+            if (current->A == prev) { /* Adiciona o novo nó na devida posição */
+                new->A = current;
+                new->B = current->B;
+                current->B->A = new;
+                current->B = new;
+            } else {
+                new->A = current->A; 
+                new->B = current;
+                current->A->B = new;
+                current->A = new;
+            }
+        }
+    }
+
+    list->size++;
+}
+
+void doubly_print(List *list) {
+    Node *prev = NULL, *current = list->head;
+
+    while (current) {
+        printf("%.4lf ", current->data);
+
+        if (!prev || current->A == prev) {
+            prev = current;
+            current = current->B;
+        } else {
+            prev = current;
+            current = current->A;
+        }
+    }
+
+    printf("\n");
+}
+
+void doubly_reverse(List *list) {
+    Node *f_current = NULL, *f_prev = NULL, *l_current = NULL, *l_prev = NULL;
+    int first, last;
+
+    scanf(" %d %d", &first, &last);
+
+    if (first >= list->size || last >= list->size || first == last) { /* posições inválidas. */
+        return;
+    }
+
+    f_current = list->head;
+    doubly_iterate(&f_current, &f_prev, first + 1);
+
+    l_current = list->head;
+    doubly_iterate(&l_current, &l_prev, last + 1);
+
+    
+    if (list->size) return;
+}
+
+void doubly_destroy(List *list) {
+    Node *prev = NULL, *current = list->head;
+    Node *addresses[list->size];
+    int i, counter = 0;
+
+
+    while (current) {
+        addresses[counter] = current;
+
+        if (!prev || current->A == prev) {
+            prev = current;
+            current = current->B;
+        } else {
+            prev = current;
+            current = current->A;
+        }
+
+        counter++;
+    }
+
+    for (i = 0; i < counter; i++) {
+        free(addresses[i]);
+    }
+
+    free(list);
+}
+
+static void doubly_iterate(Node **current, Node **previous, int iterations) {
+    int i;
+
+    for (i = 1; i < iterations; i++) {
+        if (!(*previous) || (*current)->A == *previous) {
+            *previous = *current;
+            *current = (*current)->B;
+        } else {
+            *previous = *current;
+            *current = (*current)->A;
+        }
+    }
+}

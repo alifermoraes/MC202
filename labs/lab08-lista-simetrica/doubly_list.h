@@ -44,15 +44,15 @@
 #ifndef _DOUBLY_LIST_H
 #define _DOUBLY_LIST_H
 
-#define INSERT  1
-#define PRINT   2
-#define REVERSE 3
-#define FINISH  0
+#define INSERT  105 /* i corresponde ao decimal 105 na tabela ASCII. */
+#define PRINT   112 /* p corresponde ao decimal 112 na tabela ASCII. */
+#define REVERSE 118 /* v corresponde ao decimal 118 na tabela ASCII. */
+#define FINISH  116 /* t corresponde ao decimal 116 na tabela ASCII. */
 
 typedef struct node {
     double data;
-    struct node *prev;
-    struct node *next;
+    struct node *A;
+    struct node *B;
 } Node;
 
 typedef struct list {
@@ -60,5 +60,11 @@ typedef struct list {
     Node *tail;
     int size;
 } List;
+
+List* create_list(void);
+void doubly_insert(List *list);
+void doubly_print(List *list);
+void doubly_reverse(List *list);
+void doubly_destroy(List *list);
 
 #endif /* _DOUBLY_LIST_H */

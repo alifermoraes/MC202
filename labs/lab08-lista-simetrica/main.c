@@ -46,6 +46,30 @@
 #include "doubly_list.h"
 
 int main(void) {
+    List *list = NULL;
+    char instruction;
+
+    list = create_list();
+
+    do {
+        scanf(" %c", &instruction);
+
+        switch (instruction) {
+        case INSERT:
+            doubly_insert(list);
+            break;
+        case PRINT:
+            doubly_print(list);
+            break;
+        case REVERSE:
+            doubly_reverse(list);
+            break;
+        default:
+            break;
+        }
+    } while (instruction != FINISH);
+
+    doubly_destroy(list);
 
     return EXIT_SUCCESS;
 }

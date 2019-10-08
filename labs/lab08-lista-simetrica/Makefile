@@ -6,8 +6,8 @@ OUT_NAME:= main.o
 
 all: main
 
-main: main.c dynamic.c dynamic.h Makefile
-		scan-build $(CC) $(CFLAGS) main.c dynamic.c -o $(OUT_NAME)
+main: main.c doubly_list.c doubly_list.h Makefile
+		scan-build $(CC) $(CFLAGS) main.c doubly_list.c -o $(OUT_NAME)
 
 clean:
 		$(RM) $(OUT_NAME)
