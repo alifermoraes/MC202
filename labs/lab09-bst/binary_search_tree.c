@@ -38,21 +38,18 @@ int bst_insert(tree_ptr *tree, int data) {
         tmp = (*tree);
         
         while (tmp) {
-
             if (data == tmp->data) {
                 free(new);
                 return 0;
             } else if (data < tmp->data) {
                 if (!tmp->left_s) {
                     tmp->left_s = new;
-                    return 1;
                 }
 
                 tmp = tmp->left_s;
             } else {
                 if (!tmp->right_s) {
                     tmp->right_s = new;
-                    return 1;
                 }
 
                 tmp = tmp->right_s;
@@ -116,9 +113,9 @@ void bst_breadth(tree_ptr tree, int size) {
 
         while (queue_size) {
             tmp = tree_queue[queue_head];
+            printf("%d ", tmp->data);
             queue_head++;
             queue_size--;
-            printf("%d ", tmp->data);
 
             if (tmp->left_s) {
                 tree_queue[queue_head + queue_size] = tmp->left_s;
