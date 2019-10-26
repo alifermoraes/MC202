@@ -17,7 +17,7 @@
 #include "binary_search_tree.h"
 
 int main(void) {
-    tree_ptr tree;
+    tree_ptr tree, tmp;
     char operation, instruction[11];
     int data, tree_size = 0;
 
@@ -73,6 +73,24 @@ int main(void) {
                 printf("vazia");
             }
             printf("\n");
+            break;
+        case MIN:
+            tmp = bst_min(tree);
+
+            if (tmp) {
+                printf("%d\n", tmp->data);
+            } else {
+                printf("vazia\n");
+            }
+            break;
+        case MAX:
+            tmp = bst_max(tree);
+
+            if (tmp) {
+                printf("%d\n", tmp->data);
+            } else {
+                printf("vazia\n");
+            }
             break;
         case FINISH:
             bst_destroy(tree);

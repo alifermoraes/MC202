@@ -23,23 +23,27 @@
 #define IN_ORDER    4
 #define PRE_ORDER   5
 #define BREADTH     6
+#define DELETE      7
+#define MIN         8
+#define MAX         9
 
 
 typedef struct tree_node {
     int data;
+    struct tree_node *parent;
     struct tree_node *right_s;
     struct tree_node *left_s;
-} Tree;
-
-typedef Tree* tree_ptr;
+} Tree, *tree_ptr;
 
 tree_ptr bst_create(void);
 int bst_insert(tree_ptr *tree, int data);
-int bst_search(tree_ptr tree, int data);
+tree_ptr bst_search(tree_ptr tree, int data);
 void bst_post_order(tree_ptr tree);
 void bst_in_order(tree_ptr tree);
 void bst_pre_order(tree_ptr tree);
 void bst_breadth(tree_ptr tree, int size);
+tree_ptr bst_min(tree_ptr tree);
+tree_ptr bst_max(tree_ptr tree);
 void bst_destroy(tree_ptr tree);
 int bst_decoder(char *instruction);
 

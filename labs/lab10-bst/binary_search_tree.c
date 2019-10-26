@@ -29,6 +29,7 @@ int bst_insert(tree_ptr *tree, int data) {
     if (!new) exit(1);
 
     new->data = data;
+    new->parent = NULL;
     new->left_s = NULL;
     new->right_s = NULL;
 
@@ -43,6 +44,7 @@ int bst_insert(tree_ptr *tree, int data) {
                 return 0;
             } else if (data < tmp->data) {
                 if (!tmp->left_s) {
+                    new->parent = tmp;
                     tmp->left_s = new;
                     return 1;
                 }
@@ -50,6 +52,7 @@ int bst_insert(tree_ptr *tree, int data) {
                 tmp = tmp->left_s;
             } else {
                 if (!tmp->right_s) {
+                    new->parent = tmp;
                     tmp->right_s = new;
                     return 1;
                 }
@@ -62,10 +65,10 @@ int bst_insert(tree_ptr *tree, int data) {
     return 1;
 }
 
-int bst_search(tree_ptr tree, int data) {
+tree_ptr bst_search(tree_ptr tree, int data) {
     while (tree) {
         if (tree->data == data) {
-            return 1;
+            return tree;
         } else if (data < tree->data) {
             tree = tree->left_s;
         } else {
@@ -73,7 +76,7 @@ int bst_search(tree_ptr tree, int data) {
         }
     }
 
-    return 0;    
+    return NULL;
 }
 
 void bst_post_order(tree_ptr tree) {
@@ -134,6 +137,22 @@ void bst_breadth(tree_ptr tree, int size) {
     free(tree_queue);
 }
 
+tree_ptr bst_min(tree_ptr tree) {
+    while (tree && tree->left_s) {
+        tree = tree->left_s;
+    }
+
+    return tree;
+}
+
+tree_ptr bst_max(tree_ptr tree) {
+    while (tree && tree->right_s) {
+        tree = tree->right_s;
+    }
+
+    return tree;
+}
+
 void bst_destroy(tree_ptr tree) {
     if (tree) {
         bst_destroy(tree->left_s);
@@ -155,6 +174,12 @@ int bst_decoder(char *instruction) {
         return PRE_ORDER;
     } else if (!strcmp(instruction, "largura")) {
         return BREADTH;
+    } else if (!strcmp(instruction, "remover")) {
+        return DELETE;
+    } else if (!strcmp(instruction, "minimo")) {
+        return MIN;
+    } else if (!strcmp(instruction, "maximo")) {
+        return MAX;
     } else if (!strcmp(instruction, "terminar")) {
         return FINISH;
     } else {
