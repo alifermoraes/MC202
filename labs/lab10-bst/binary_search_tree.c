@@ -213,25 +213,74 @@ tree_ptr bst_max(tree_ptr tree) {
 }
 
 tree_ptr bst_successor(tree_ptr tree, int data) {
-    tree_ptr tmp, min;
+    tree_ptr tmp, ancestor;
 
     tmp = bst_search(tree, data);
 
-    if (tmp && !tmp->right_s) { /* Nó correspondente à chave não possui filho direito. */
-        if (tmp->parent && (tmp->parent->left_s == tmp)) { /* Esse nó é filho esquerdo? */
-            return tmp->parent; /* Pai é o sucessor. */
-        }
-    }
+    if (tmp) {
+        if (tmp->right_s) { /* Sucessor é o valor mínimo na sub arvore direita. */
+            return bst_min(tmp->right_s);
+        } else {
+            /**
+             * Nó não possui filho direito, portanto seu sucessor é o ancestral mais próximo cujo
+             * valor é maior do que o do nó em questão.
+             */
+            ancestor = tmp->parent;
 
-    if (tmp && tmp->right_s) { /* Sucessor é o valor mínimo na sub arvore direita. */
-        min = bst_min(tmp->right_s);
+            while (ancestor && (tmp == ancestor->right_s)) {
+                tmp = ancestor;
+                ancestor = tmp->parent;
+            }
 
-        if (tmp != min) {
-            return min;
+            return ancestor;
         }
     }
 
     return NULL;
+}
+
+tree_ptr bst_predecessor(tree_ptr tree, int data) {
+    tree_ptr tmp, ancestor;
+
+    tmp = bst_search(tree, data);
+
+    if (tmp) {
+        if (tmp->left_s) { /* Nó correspondente à chave não possui filho esquerdo. */
+            return bst_max(tmp->left_s);
+        } else {
+            /**
+             * Nó não possui filho esquerdo, portanto seu predecessor é o ancestral mais próximo
+             * cujo valor é menor do que o do nó em questão. 
+             */
+            ancestor = tmp->parent;
+
+            while (ancestor && (tmp == ancestor->left_s)) {
+                tmp = ancestor;
+                ancestor = tmp->parent;
+            }
+
+            return ancestor;
+        }
+    }
+
+    return NULL;
+}
+
+void bst_range_search(tree_ptr tree, int r_min, int r_max, int *flag) {
+    if (tree) {
+        if (tree->data >= r_min) {
+            bst_range_search(tree->left_s, r_min, r_max, flag);
+        }
+
+        if ((tree->data >= r_min) && (tree->data <= r_max)) {
+            printf("%d ", tree->data);
+            *flag = 1;
+        }
+
+        if (tree->data <= r_max) {
+            bst_range_search(tree->right_s, r_min, r_max, flag);
+        }
+    }
 }
 
 void bst_destroy(tree_ptr tree) {
@@ -263,6 +312,10 @@ int bst_decoder(char *instruction) {
         return MAX;
     } else if (!strcmp(instruction, "sucessor")) {
         return SUCCESSOR;
+    } else if (!strcmp(instruction, "predecessor")) {
+        return PREDECESSOR;
+    } else if (!strcmp(instruction, "buscar-intervalo")) {
+        return RANGE_SEARCH;
     } else if (!strcmp(instruction, "terminar")) {
         return FINISH;
     } else {

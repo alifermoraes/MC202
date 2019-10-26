@@ -18,8 +18,8 @@
 
 int main(void) {
     tree_ptr tree, tmp;
-    char operation, instruction[11];
-    int data, tree_size = 0;
+    char operation, instruction[17];
+    int data, r_min, r_max, flag = 0, tree_size = 0;
 
     tree = bst_create();
 
@@ -108,6 +108,26 @@ int main(void) {
                 printf("nao ha\n");
             }
             break;
+        case PREDECESSOR:
+            scanf(" %d", &data);
+            tmp = bst_predecessor(tree, data);
+
+            if (tmp) {
+                printf("%d\n", tmp->data);
+            } else {
+                printf("nao ha\n");
+            }
+            break;
+        case RANGE_SEARCH:
+            scanf(" %d %d", &r_min, &r_max);
+            bst_range_search(tree, r_min, r_max, &flag);
+            
+            if (flag) {
+                printf("\n");
+                flag = 0;
+            } else {
+                printf("nenhuma\n");
+            }
         case FINISH:
             bst_destroy(tree);
             break;

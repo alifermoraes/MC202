@@ -15,19 +15,20 @@
 #ifndef _BINARY_SEARCH_TREE_H
 #define _BINARY_SEARCH_TREE_H
 
-#define INVALID    -1
-#define FINISH      0
-#define INSERT      1
-#define SEARCH      2
-#define POST_ORDER  3
-#define IN_ORDER    4
-#define PRE_ORDER   5
-#define BREADTH     6
-#define DELETE      7
-#define MIN         8
-#define MAX         9
-#define SUCCESSOR   10
-
+#define INVALID         -1
+#define FINISH           0
+#define INSERT           1
+#define SEARCH           2
+#define POST_ORDER       3
+#define IN_ORDER         4
+#define PRE_ORDER        5
+#define BREADTH          6
+#define DELETE           7
+#define MIN              8
+#define MAX              9
+#define SUCCESSOR       10
+#define PREDECESSOR     11
+#define RANGE_SEARCH    12
 
 typedef struct tree_node {
     int data;
@@ -47,6 +48,8 @@ int bst_delete(tree_ptr *tree, int data);
 tree_ptr bst_min(tree_ptr tree);
 tree_ptr bst_max(tree_ptr tree);
 tree_ptr bst_successor(tree_ptr tree, int data);
+tree_ptr bst_predecessor(tree_ptr tree, int data);
+void bst_range_search(tree_ptr tree, int r_min, int r_max, int *flag);
 void bst_destroy(tree_ptr tree);
 int bst_decoder(char *instruction);
 
