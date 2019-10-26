@@ -110,11 +110,11 @@ void bst_breadth(tree_ptr tree, int size) {
     int queue_head = 0;
     int queue_size = 0;
 
-    tree_queue = malloc(size * sizeof(tree_ptr));
-
-    if (!tree_queue) exit(1);
-
     if (tree) {
+        tree_queue = malloc(size * sizeof(tree_ptr));
+
+        if (!tree_queue) exit(1);
+
         tree_queue[queue_head + queue_size] = tree;
         queue_size++;
 
@@ -134,9 +134,9 @@ void bst_breadth(tree_ptr tree, int size) {
                 queue_size++;
             }
         }
-    }
 
-    free(tree_queue);
+        free(tree_queue);
+    }
 }
 
 int bst_delete(tree_ptr *tree, int data) {
@@ -159,16 +159,18 @@ int bst_delete(tree_ptr *tree, int data) {
          * do nó sucessor.
          */
         if (tmp->right_s != replacement) { /* O filho direito do nó removido não é o sucessor. */
-            if (replacement->right_s) {
-                replacement->parent->left_s = replacement->right_s;
-            } else {
-                replacement->parent->left_s = NULL;
-            }
+            replacement->parent->left_s = replacement->right_s;
 
+            if (replacement->right_s) {
+                replacement->right_s->parent = replacement->parent;
+            }
+            
             replacement->right_s = tmp->right_s;
+            replacement->right_s->parent = replacement;
         }
 
         replacement->left_s = tmp->left_s;
+        replacement->left_s->parent = replacement;
     } else if (tmp->left_s) { /* Nó a ser removido possui apenas filho esquerdo. */
         replacement = tmp->left_s;
     } else if (tmp->right_s) { /* Nó a ser removido possui apenas filho direito. */
@@ -218,7 +220,7 @@ tree_ptr bst_successor(tree_ptr tree, int data) {
     tmp = bst_search(tree, data);
 
     if (tmp) {
-        if (tmp->right_s) { /* Sucessor é o valor mínimo na sub arvore direita. */
+        if (tmp->right_s) {
             return bst_min(tmp->right_s);
         } else {
             /**
@@ -245,7 +247,7 @@ tree_ptr bst_predecessor(tree_ptr tree, int data) {
     tmp = bst_search(tree, data);
 
     if (tmp) {
-        if (tmp->left_s) { /* Nó correspondente à chave não possui filho esquerdo. */
+        if (tmp->left_s) {
             return bst_max(tmp->left_s);
         } else {
             /**

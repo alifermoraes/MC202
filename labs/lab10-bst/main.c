@@ -128,6 +128,7 @@ int main(void) {
             } else {
                 printf("nenhuma\n");
             }
+            break;
         case FINISH:
             bst_destroy(tree);
             break;

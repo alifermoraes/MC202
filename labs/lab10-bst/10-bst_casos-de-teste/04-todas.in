@@ -1,0 +1,40 @@
+inserir 1
+inserir 0
+inserir -998
+inserir -1000
+inserir 2
+inserir -1
+inserir 0
+inserir 998
+inserir 1000
+inserir -2
+inserir -1
+inserir 0
+inserir 998
+inserir 1000
+inserir 2
+em-ordem
+pre-ordem
+pos-ordem
+largura
+buscar 1
+buscar 0
+buscar -998
+buscar -1000
+buscar 2
+buscar 1
+buscar 0
+buscar -998
+buscar -1000
+buscar 2
+buscar -1
+sucessor 0
+predecessor 0
+buscar-intervalo -999 999
+minimo
+maximo
+remover -1000
+em-ordem
+remover 1000
+em-ordem
+terminar
