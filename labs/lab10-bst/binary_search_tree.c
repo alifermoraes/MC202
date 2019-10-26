@@ -21,6 +21,7 @@ tree_ptr bst_create(void) {
     return NULL;
 }
 
+/* Retorna 1 se adicionar o novo nó com sucesso, caso contrário retorna 0. */
 int bst_insert(tree_ptr *tree, int data) {
     tree_ptr new, tmp;
 
@@ -65,6 +66,7 @@ int bst_insert(tree_ptr *tree, int data) {
     return 1;
 }
 
+/* Retorna o nó caso encontre-o, caso contrário retorna NULL. */
 tree_ptr bst_search(tree_ptr tree, int data) {
     while (tree) {
         if (tree->data == data) {
@@ -137,6 +139,63 @@ void bst_breadth(tree_ptr tree, int size) {
     free(tree_queue);
 }
 
+int bst_delete(tree_ptr *tree, int data) {
+    tree_ptr tmp, replacement;
+
+    tmp = bst_search(*tree, data);
+
+    if (!tmp) { /* Chave a ser removida não existe. */
+        return 0;
+    }
+
+    if (tmp->left_s && tmp->right_s) { /* Nó a ser removido possui dois filhos. */
+        replacement = bst_min(tmp->right_s); /* Encontra o sucessor do nó a ser removido. */
+
+        /**
+         * O sucessor do nó a ser removido só pode possuir filho direito (pois é o menor valor da
+         * sub arvore correspondente), caso possua filho direito esse filho torna-se filho
+         * esquerdo do pai do sucessor.
+         * O nó a ser removido é substituido por seu sucessor e seus filhos tornam-se filhos
+         * do nó sucessor.
+         */
+        if (tmp->right_s != replacement) { /* O filho direito do nó removido não é o sucessor. */
+            if (replacement->right_s) {
+                replacement->parent->left_s = replacement->right_s;
+            } else {
+                replacement->parent->left_s = NULL;
+            }
+
+            replacement->right_s = tmp->right_s;
+        }
+
+        replacement->left_s = tmp->left_s;
+    } else if (tmp->left_s) { /* Nó a ser removido possui apenas filho esquerdo. */
+        replacement = tmp->left_s;
+    } else if (tmp->right_s) { /* Nó a ser removido possui apenas filho direito. */
+        replacement = tmp->right_s;
+    } else { /* Nó a ser removido não possui filhos. */
+        replacement = NULL;
+    }
+
+    if (replacement) {
+        replacement->parent = tmp->parent;
+    }
+
+    if (tmp->parent) {
+        if (tmp->parent->left_s == tmp) {
+            tmp->parent->left_s = replacement;
+        } else {
+            tmp->parent->right_s = replacement;
+        }
+    } else { /* Nó a ser removido é a raiz */
+        *tree =  replacement;
+    }
+
+    free(tmp);
+
+    return 1;
+}
+
 tree_ptr bst_min(tree_ptr tree) {
     while (tree && tree->left_s) {
         tree = tree->left_s;
@@ -151,6 +210,28 @@ tree_ptr bst_max(tree_ptr tree) {
     }
 
     return tree;
+}
+
+tree_ptr bst_successor(tree_ptr tree, int data) {
+    tree_ptr tmp, min;
+
+    tmp = bst_search(tree, data);
+
+    if (tmp && !tmp->right_s) { /* Nó correspondente à chave não possui filho direito. */
+        if (tmp->parent && (tmp->parent->left_s == tmp)) { /* Esse nó é filho esquerdo? */
+            return tmp->parent; /* Pai é o sucessor. */
+        }
+    }
+
+    if (tmp && tmp->right_s) { /* Sucessor é o valor mínimo na sub arvore direita. */
+        min = bst_min(tmp->right_s);
+
+        if (tmp != min) {
+            return min;
+        }
+    }
+
+    return NULL;
 }
 
 void bst_destroy(tree_ptr tree) {
@@ -180,6 +261,8 @@ int bst_decoder(char *instruction) {
         return MIN;
     } else if (!strcmp(instruction, "maximo")) {
         return MAX;
+    } else if (!strcmp(instruction, "sucessor")) {
+        return SUCCESSOR;
     } else if (!strcmp(instruction, "terminar")) {
         return FINISH;
     } else {

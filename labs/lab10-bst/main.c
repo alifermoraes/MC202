@@ -74,6 +74,12 @@ int main(void) {
             }
             printf("\n");
             break;
+        case DELETE:
+            scanf(" %d", &data);
+            if (bst_delete(&tree, data)) {
+                tree_size--;
+            }
+            break;
         case MIN:
             tmp = bst_min(tree);
 
@@ -90,6 +96,16 @@ int main(void) {
                 printf("%d\n", tmp->data);
             } else {
                 printf("vazia\n");
+            }
+            break;
+        case SUCCESSOR:
+            scanf(" %d", &data);
+            tmp = bst_successor(tree, data);
+
+            if (tmp) {
+                printf("%d\n", tmp->data);
+            } else {
+                printf("nao ha\n");
             }
             break;
         case FINISH:

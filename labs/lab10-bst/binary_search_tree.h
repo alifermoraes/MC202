@@ -26,6 +26,7 @@
 #define DELETE      7
 #define MIN         8
 #define MAX         9
+#define SUCCESSOR   10
 
 
 typedef struct tree_node {
@@ -42,8 +43,10 @@ void bst_post_order(tree_ptr tree);
 void bst_in_order(tree_ptr tree);
 void bst_pre_order(tree_ptr tree);
 void bst_breadth(tree_ptr tree, int size);
+int bst_delete(tree_ptr *tree, int data);
 tree_ptr bst_min(tree_ptr tree);
 tree_ptr bst_max(tree_ptr tree);
+tree_ptr bst_successor(tree_ptr tree, int data);
 void bst_destroy(tree_ptr tree);
 int bst_decoder(char *instruction);
 
