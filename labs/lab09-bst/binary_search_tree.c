@@ -44,19 +44,21 @@ int bst_insert(tree_ptr *tree, int data) {
             } else if (data < tmp->data) {
                 if (!tmp->left_s) {
                     tmp->left_s = new;
+                    return 1;
                 }
 
                 tmp = tmp->left_s;
             } else {
                 if (!tmp->right_s) {
                     tmp->right_s = new;
+                    return 1;
                 }
 
                 tmp = tmp->right_s;
             }
         }
     }
-    
+
     return 1;
 }
 
