@@ -23,17 +23,23 @@
 #include "hashing.h"
 
 int main(void) {
-    char instruction;
+    hash_node **hash_table;
+    char instruction, *string;
+
+    hash_table = hashing_create_table();
 
     do {
         scanf(" %c", &instruction);
 
         switch (instruction) {
         case INSERT:
+            scanf(" %s", string);
             break;
         case SEARCH:
+            scanf(" %s", string);
             break;
         case DELETE:
+            scanf(" %s", string);
             break;
         case FINISH:
             break;

@@ -18,4 +18,37 @@
  * Escolha também uma função de transformação de cadeias de caracteres em inteiros.
  */
 
+#include <stdlib.h>
 #include "hashing.h"
+
+static unsigned int hashing_function(char *string);
+
+hash_node *hashing_create_table(void) {
+    hash_node *hash_table;
+    int i;
+
+    hash_table = calloc(TABLE_SIZE, sizeof(hash_node));
+
+    if (!hash_table) return NULL;
+
+    return hash_table;
+}
+
+void hashing_insert(hash_node *hash_table, char *string) {
+    hash_node *tmp;
+    unsigned int id;
+
+    id = hashing_function(string);
+
+    for (tmp = hash_table[id]; tmp && tmp->next; tmp = tmp->next);
+}
+
+static unsigned int hashing_function(char *string) {
+    unsigned int hash = 0;
+
+    while (*string) {
+        hash += *(string++);
+    }
+
+    return hash % TABLE_SIZE;
+}
