@@ -19,28 +19,40 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "hashing.h"
 
 static unsigned int hashing_function(char *string);
 
-hash_node *hashing_create_table(void) {
-    hash_node *hash_table;
+hash_node **hashing_create_table(void) {
+    hash_node **hash_table;
     int i;
 
-    hash_table = calloc(TABLE_SIZE, sizeof(hash_node));
+    hash_table = calloc(TABLE_SIZE, sizeof(hash_node*));
 
     if (!hash_table) return NULL;
 
     return hash_table;
 }
 
-void hashing_insert(hash_node *hash_table, char *string) {
-    hash_node *tmp;
+void hashing_insert(hash_node **hash_table, char *string) {
+    hash_node *tmp, *new;
     unsigned int id;
 
     id = hashing_function(string);
+    new = malloc(sizeof(hash_node));
 
-    for (tmp = hash_table[id]; tmp && tmp->next; tmp = tmp->next);
+    if (!new) exit(1);
+
+    strcpy(new->string, string);
+    new->next = NULL;
+
+    if (!((*hash_table)[id])) {
+        (*hash_table)[id] = new;
+    } else {
+        for (tmp = (*hash_table)[id]; tmp->next; tmp = tmp->next);
+        tmp->next = new;
+    }
 }
 
 static unsigned int hashing_function(char *string) {

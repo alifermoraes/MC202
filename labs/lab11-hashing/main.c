@@ -26,7 +26,7 @@ int main(void) {
     hash_node **hash_table;
     char instruction, *string;
 
-    hash_table = hashing_create_table();
+    *hash_table = hashing_create_table();
 
     do {
         scanf(" %c", &instruction);
