@@ -29,11 +29,15 @@
 #define DELETE  114 /* Caractere r é equivalente à 114 em decimal. */
 
 typedef struct hash_node {
-    char string[251];
+    char key[251];
+    int id;
     struct hash_node *next;
 } hash_node;
 
 hash_node **hashing_create_table(void);
-void hashing_insert(hash_node **hash_table, char *string);
+void hashing_insert(hash_node **hash_table, char *key, int *id);
+int hashing_search(hash_node **hash_table, char *key);
+void hashing_delete(hash_node **hash_table, char *key); 
+void hashing_destroy(hash_node **hash_table);
 
 #endif /* _HASHING_H */

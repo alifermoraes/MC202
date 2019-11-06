@@ -22,11 +22,10 @@
 #include <string.h>
 #include "hashing.h"
 
-static unsigned int hashing_function(char *string);
+static int hashing_function(char *key);
 
 hash_node **hashing_create_table(void) {
     hash_node **hash_table;
-    int i;
 
     hash_table = calloc(TABLE_SIZE, sizeof(hash_node*));
 
@@ -35,31 +34,110 @@ hash_node **hashing_create_table(void) {
     return hash_table;
 }
 
-void hashing_insert(hash_node **hash_table, char *string) {
+void hashing_insert(hash_node **hash_table, char *key, int *id) {
     hash_node *tmp, *new;
-    unsigned int id;
+    int pos;
 
-    id = hashing_function(string);
+    if (hashing_search(hash_table, key) >= 0) { /* Chave ja existe na tabela. */
+        return;
+    }
+
+    pos = hashing_function(key);
     new = malloc(sizeof(hash_node));
 
     if (!new) exit(1);
 
-    strcpy(new->string, string);
+    strcpy(new->key, key);
     new->next = NULL;
+    new->id = *id;
+    (*id)++;
 
-    if (!((*hash_table)[id])) {
-        (*hash_table)[id] = new;
-    } else {
-        for (tmp = (*hash_table)[id]; tmp->next; tmp = tmp->next);
+    if (!hash_table[pos]) { /* Posição vazia na tabela hash. */
+        hash_table[pos] = new;
+    } else { /* Colisão -> resolve por encadeamento. */
+        for (tmp = hash_table[pos]; tmp->next; tmp = tmp->next);
         tmp->next = new;
     }
 }
 
-static unsigned int hashing_function(char *string) {
-    unsigned int hash = 0;
+/**
+ * Essa função busca se uma cadeia de caracteres pertence à tabela hash.
+ * Se a cadeia pertence, a função retorna seu ID, caso contrário retorna -1.
+ */
+int hashing_search(hash_node **hash_table, char *key) {
+    hash_node *tmp;
+    int pos;
 
-    while (*string) {
-        hash += *(string++);
+    pos = hashing_function(key);
+
+    if (hash_table[pos]) { /* Existe algo na posição da tabela onde a cadeia deveria estar? */
+        tmp = hash_table[pos];
+
+        while (tmp) {
+            if (!strcmp(key, tmp->key)) {
+                return tmp->id;
+            }
+
+            tmp = tmp->next;
+        }
+    }
+
+    return -1;
+}
+
+void hashing_delete(hash_node **hash_table, char *key) {
+    hash_node *curr, *prev;
+    int pos;
+
+    pos = hashing_function(key);
+
+    if (hash_table[pos]) {
+        prev = NULL;
+        curr = hash_table[pos];
+
+        while (curr) {
+            if (!strcmp(key, curr->key)) {
+                if (prev) {
+                    prev->next = curr->next;
+                } else {
+                    hash_table[pos] = NULL;
+                }
+
+                free(curr);
+                return;
+            }
+
+            prev = curr;
+            curr = curr->next;
+        }
+    }
+}
+
+void hashing_destroy(hash_node **hash_table) {
+    hash_node *curr, *tmp;
+    int i;
+
+    for (i = 0; i < TABLE_SIZE; i++) {
+        if (hash_table[i]) {
+            curr = hash_table[i];
+
+            while (curr) {
+                tmp = curr;
+                curr = curr->next;
+
+                free(tmp);
+            }
+        }
+    }
+
+    free(hash_table);
+}
+
+static int hashing_function(char *key) {
+    int hash = 0;
+
+    while (*key) {
+        hash += *(key++);
     }
 
     return hash % TABLE_SIZE;

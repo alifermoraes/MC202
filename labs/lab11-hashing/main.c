@@ -24,24 +24,33 @@
 
 int main(void) {
     hash_node **hash_table;
-    char instruction, *string;
+    char instruction, key[251];
+    int id = 0;
 
-    *hash_table = hashing_create_table();
+    hash_table = hashing_create_table();
 
     do {
         scanf(" %c", &instruction);
 
         switch (instruction) {
         case INSERT:
-            scanf(" %s", string);
+            scanf(" %s", key);
+            hashing_insert(hash_table, key, &id);
             break;
         case SEARCH:
-            scanf(" %s", string);
+            scanf(" %s", key);
+            if (hashing_search(hash_table, key) >= 0) {
+                printf("%s encontrada, id %d\n", key, hashing_search(hash_table, key));
+            } else {
+                printf("%s nao encontrada\n", key);
+            }
             break;
         case DELETE:
-            scanf(" %s", string);
+            scanf(" %s", key);
+            hashing_delete(hash_table, key);
             break;
         case FINISH:
+            hashing_destroy(hash_table);
             break;
         default:
             break;
