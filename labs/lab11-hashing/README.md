@@ -5,16 +5,17 @@ Este trabalho consiste em implementar uma tabela de hashing para armazenar cadei
 As colisões devem ser resolvidas usando sondagem com hashing duplo ou encadeamento na própria tabela. Defina o tamanho e a função de hashing para a sua tabela.
 
 Escolha também uma função de transformação de cadeias de caracteres em inteiros. Não importa a forma como você faça para este trabalho, mas algumas funções são muito piores que outras em termos de espalhamento. Um exemplo de uma função que funciona bem é a função de hashing djb2 abaixo:
-
-unsigned long djb2(unsigned char *str) {
-  unsigned long hash = 5381;
+```
+unsigned long djb2(unsigned char *str) {  
+  unsigned long hash = 5381;  
   int c;
   
-  while ((c = *str++))
+  while ((c = *str++))  
     hash = ((hash << 5) + hash) + c; // hash * 32 + hash + c
   
-  return hash;
+  return hash;  
 }
+````
 
 ## Entrada
 
