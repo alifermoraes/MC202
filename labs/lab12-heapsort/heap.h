@@ -18,8 +18,13 @@
 #define _HEAP_H
 
 typedef struct heap {
-    int *root;
+    int *V;
     int size;
+    int max_size;
 } heap;
+
+heap *heap_create(int max_size);
+void heap_insert(heap *heap, int data);
+
 
 #endif /* _HEAP_H */

@@ -20,3 +20,58 @@
 
 #include <stdlib.h>
 #include "heap.h"
+
+heap *heap_create(int max_size) {
+    heap *heap;
+
+    heap = malloc(sizeof(heap));
+
+    if (!heap)
+        return NULL;
+
+    heap->V = malloc(max_size * sizeof(int));
+
+    if (!heap->V) {
+        free(heap);
+        return NULL;
+    }
+
+    heap->size = 0;
+    heap->max_size = max_size;
+
+    return heap;
+}
+
+void heap_insert(heap *heap, int data) {
+    int parent, child;
+
+    if (heap->size < heap->max_size) {
+        heap->V[heap->size] = data;
+        child = heap->size;
+        parent = (heap->size - 1) / 2;
+
+        while (child && (heap->V[parent] < heap->V[child])) {
+            /**
+             * XOR swap -> troca os valores de duas variáveis que se comportam como inteiros sem uso
+             * de variável auxiliar.
+             */
+            heap->V[parent] ^= heap->V[child];
+            heap->V[child] ^= heap->V[parent];
+            heap->V[parent] ^= heap->V[child];
+
+            child = parent;
+            parent = (child - 1) / 2;
+        }
+
+        heap->size++;
+    }
+}
+
+void heap_destroy(heap *heap) {
+    if (heap) {
+        if (heap->V)
+            free(heap->V);
+
+        free(heap);
+    }
+}
