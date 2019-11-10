@@ -19,12 +19,16 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "heap.h"
 
-heap *heap_create(int max_size) {
-    heap *heap;
+static void heap_insert(Heap *heap, int data);
 
-    heap = malloc(sizeof(heap));
+Heap *heap_create(int max_size) {
+    Heap *heap;
+    int data;
+
+    heap = malloc(sizeof(Heap));
 
     if (!heap)
         return NULL;
@@ -36,13 +40,18 @@ heap *heap_create(int max_size) {
         return NULL;
     }
 
-    heap->size = 0;
     heap->max_size = max_size;
+    heap->size = 0;
+
+    while (heap->size < heap->max_size) {
+        scanf(" %d", &data);
+        heap_insert(heap, data);
+    }
 
     return heap;
 }
 
-void heap_insert(heap *heap, int data) {
+static void heap_insert(Heap *heap, int data) {
     int parent, child;
 
     if (heap->size < heap->max_size) {
@@ -67,7 +76,59 @@ void heap_insert(heap *heap, int data) {
     }
 }
 
-void heap_destroy(heap *heap) {
+/**
+ * Coloca o maior valor do heap na utilma posição útil do vetor que armazena os valores do heap
+ * depois diminui o índice que guarda o tamanho útil do vetor.
+ * A função retorna esse valor, que era o heap
+ */
+int heap_remove_max(Heap *heap) {
+    int parent, child, r_child, l_child;
+
+    if (heap->size > 1) {
+        heap->size--;
+
+        /**
+         * XOR swap -> troca os valores de duas variáveis que se comportam como inteiros sem uso
+         * de variável auxiliar.
+         */
+        heap->V[0] ^= heap->V[heap->size];
+        heap->V[heap->size] ^= heap->V[0];
+        heap->V[0] ^= heap->V[heap->size];
+
+        parent = 0;
+        l_child = (2 * parent) + 1;
+        r_child = l_child + 1;
+
+        do {
+            if (r_child < heap->size)
+                child = heap->V[l_child] > heap->V[r_child] ? l_child : r_child;
+            else if (l_child < heap->size)
+                child = l_child;
+            else
+                child = parent;
+
+            if (heap->V[parent] < heap->V[child]) {
+                heap->V[parent] ^= heap->V[child];
+                heap->V[child] ^= heap->V[parent];
+                heap->V[parent] ^= heap->V[child];
+
+                parent = child;
+                l_child = (2 * parent) + 1;
+                r_child = l_child + 1;
+                child = l_child;
+            } else {
+                child = parent;
+            }
+
+        } while (child != parent);
+    } else if (heap->size) { /* heap possui só 1 elemento */
+        heap->size--;
+    }
+
+    return heap->V[heap->size];
+}
+
+void heap_destroy(Heap *heap) {
     if (heap) {
         if (heap->V)
             free(heap->V);

@@ -21,10 +21,10 @@ typedef struct heap {
     int *V;
     int size;
     int max_size;
-} heap;
+} Heap;
 
-heap *heap_create(int max_size);
-void heap_insert(heap *heap, int data);
-
+Heap *heap_create(int max_size);
+int heap_remove_max(Heap *heap);
+void heap_destroy(Heap *heap);
 
 #endif /* _HEAP_H */
