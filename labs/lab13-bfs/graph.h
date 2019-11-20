@@ -15,15 +15,18 @@
 #ifndef _GRAPH_H
 #define _GRAPH_H
 
+typedef struct graph_edge {
+    int edge;
+    struct graph_edge *next;
+    int marked;
+} Edge;
+
 typedef struct graph {
-    int nodes;
-    Node *nodes_list;
+    Edge *edge;
 } Graph;
 
-typedef struct graph_node {
-    int edge;
-    Node *next;
-    int marked;
-} Node;
+Graph graph_create(int edges);
+
+void graph_destroy(Graph *graph, int edges);
 
 #endif /* _GRAPH_H */
