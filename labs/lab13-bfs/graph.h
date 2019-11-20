@@ -15,10 +15,17 @@
 #ifndef _GRAPH_H
 #define _GRAPH_H
 
+typedef struct graph_vertex {
+    int target;
+    struct graph_vertex *next;
+} Vertex;
+
 typedef struct graph_edge {
     int edge;
-    struct graph_edge *next;
+    int distance;
+    struct Edge *pi;
     int marked;
+    Vertex *next;
 } Edge;
 
 typedef struct graph {

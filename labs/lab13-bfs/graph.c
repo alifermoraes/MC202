@@ -18,7 +18,7 @@
 
 Graph graph_create(int edges) {
     Graph G;
-    Edge *new, *tmp;
+    Vertex *new, *tmp;
     int origin, target;
     int i;
 
@@ -28,6 +28,8 @@ Graph graph_create(int edges) {
 
     for (i = 0; i < edges; i++) {
         G.edge[i].edge = (i + 1);
+        G.edge[i].distance = -1;
+        G.edge[i].pi = NULL;
         G.edge[i].marked = 0;
         G.edge[i].next = NULL;
     }
@@ -36,25 +38,45 @@ Graph graph_create(int edges) {
         scanf(" %d,%d", &origin, &target);
 
         if (origin && target) {
-            new = malloc(sizeof(Edge));
+            new = malloc(sizeof(Vertex));
 
             if (!new) exit(1);
 
-            new->edge = target;
-            new->marked = 0;
+            new->target = target;
             new->next = NULL;
-            for (tmp = &G.edge[origin - 1]; tmp->next; tmp = tmp->next);
-            tmp->next = new;
 
-            new = malloc(sizeof(Edge));
+            tmp = G.edge[origin - 1].next;
+
+            if (tmp) {
+                while(tmp->next) {
+                    tmp = tmp->next;
+                }
+
+                tmp->next = new;
+
+            } else {
+                G.edge[origin - 1].next = new;
+            }
+
+            new = malloc(sizeof(Vertex));
 
             if (!new) exit(1);
 
-            new->edge = origin;
-            new->marked = 0;
+            new->target = origin;
             new->next = NULL;
-            for (tmp = &G.edge[target - 1]; tmp->next; tmp = tmp->next);
-            tmp->next = new;
+
+            tmp = G.edge[target - 1].next;
+
+            if (tmp) {
+                while(tmp->next) {
+                    tmp = tmp->next;
+                }
+
+                tmp->next = new;
+
+            } else {
+                G.edge[target - 1].next = new;
+            }
         }
     } while (origin && target);
 
@@ -62,7 +84,7 @@ Graph graph_create(int edges) {
 }
 
 void graph_destroy(Graph *graph, int edges) {
-    Edge *tmp, *curr;
+    Vertex *tmp, *curr;
     int i;
 
     for(i = 0; i < edges; i++) {

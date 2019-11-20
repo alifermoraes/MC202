@@ -18,7 +18,7 @@
 
 int main(void) {
     Graph G;
-    Edge *tmp;
+    Vertex *tmp;
     int edges;
     int i;
 
@@ -29,7 +29,7 @@ int main(void) {
         printf("Aresta %d é conectada às arestas: ", (i + 1));
 
         for(tmp = G.edge[i].next; tmp; tmp = tmp->next) {
-            printf("%d ", tmp->edge);
+            printf("%d ", tmp->target);
         } printf("\n");
     }
 
