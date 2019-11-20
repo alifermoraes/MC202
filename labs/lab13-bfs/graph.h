@@ -15,25 +15,25 @@
 #ifndef _GRAPH_H
 #define _GRAPH_H
 
-typedef struct graph_vertex {
-    int target;
-    struct graph_vertex *next;
-} Vertex;
-
 typedef struct graph_edge {
-    int edge;
-    int distance;
-    struct Edge *pi;
-    int marked;
-    Vertex *next;
+    int target;
+    struct graph_edge *next;
 } Edge;
 
+typedef struct graph_vertex {
+    int vertex;
+    int distance;
+    int pi;
+    int marked;
+    Edge *next;
+} Vertex;
+
 typedef struct graph {
-    Edge *edge;
+    Vertex *vertices;
 } Graph;
 
-Graph graph_create(int edges);
-
-void graph_destroy(Graph *graph, int edges);
+Graph graph_create(int vertices);
+void graph_bfs(Graph *G, int vertices, int vertex);
+void graph_destroy(Graph *G, int vertices);
 
 #endif /* _GRAPH_H */

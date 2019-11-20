@@ -18,22 +18,33 @@
 
 int main(void) {
     Graph G;
-    Vertex *tmp;
-    int edges;
-    int i;
+    //Edge *tmp;
+    int vertices, vertex;
+    int i, j;
 
-    scanf(" %d", &edges);
-    G = graph_create(edges);
+    scanf(" %d", &vertices);
+    G = graph_create(vertices);
+    scanf(" %d", &vertex);
+    graph_bfs(&G, vertices, vertex);
+    printf("Origem da busca: %d\nVertices alcancados e distancias:\n", vertex);
 
-    for(i = 0; i < edges; i++) {
-        printf("Aresta %d é conectada às arestas: ", (i + 1));
-
-        for(tmp = G.edge[i].next; tmp; tmp = tmp->next) {
-            printf("%d ", tmp->target);
-        } printf("\n");
+    for (i = 0; i < vertices; i++) {
+        for (j = 0; j < vertices; j++) {
+            if (G.vertices[j].marked && G.vertices[j].distance == i)
+                printf("%d %d\n", (j + 1), G.vertices[j].distance);
+        }
     }
 
-    graph_destroy(&G, edges);
+
+    /*for (i = 0; i < vertices; i++) {
+        printf("Aresta %d é conectada às arestas: ", (i + 1));
+
+        for (tmp = G.vertices[i].next; tmp; tmp = tmp->next) {
+            printf("%d ", (tmp->target + 1));
+        } printf("\n");
+    }*/
+
+    graph_destroy(&G, vertices);
 
     return EXIT_SUCCESS;
 }

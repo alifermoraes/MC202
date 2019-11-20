@@ -16,88 +16,135 @@
 #include <stdio.h>
 #include "graph.h"
 
-Graph graph_create(int edges) {
+Graph graph_create(int vertices) {
     Graph G;
-    Vertex *new, *tmp;
+    Edge *new, *tmp;
     int origin, target;
     int i;
 
-    G.edge = malloc(edges * sizeof(Edge));
+    G.vertices = malloc(vertices * sizeof(Vertex));
 
-    if (!G.edge) exit(1);
+    if (!G.vertices) exit(1);
 
-    for (i = 0; i < edges; i++) {
-        G.edge[i].edge = (i + 1);
-        G.edge[i].distance = -1;
-        G.edge[i].pi = NULL;
-        G.edge[i].marked = 0;
-        G.edge[i].next = NULL;
+    for (i = 0; i < vertices; i++) {
+        G.vertices[i].vertex = (i + 1);
+        G.vertices[i].distance = -1;
+        G.vertices[i].pi = 0;
+        G.vertices[i].marked = 0;
+        G.vertices[i].next = NULL;
     }
 
     do {
         scanf(" %d,%d", &origin, &target);
 
         if (origin && target) {
-            new = malloc(sizeof(Vertex));
+            origin--;
+            target--;
+
+            new = malloc(sizeof(Edge));
 
             if (!new) exit(1);
 
             new->target = target;
             new->next = NULL;
 
-            tmp = G.edge[origin - 1].next;
+            tmp = G.vertices[origin].next;
 
             if (tmp) {
-                while(tmp->next) {
+                while (tmp->next) {
                     tmp = tmp->next;
                 }
 
                 tmp->next = new;
 
             } else {
-                G.edge[origin - 1].next = new;
+                G.vertices[origin].next = new;
             }
 
-            new = malloc(sizeof(Vertex));
+            new = malloc(sizeof(Edge));
 
             if (!new) exit(1);
 
             new->target = origin;
             new->next = NULL;
 
-            tmp = G.edge[target - 1].next;
+            tmp = G.vertices[target].next;
 
             if (tmp) {
-                while(tmp->next) {
+                while (tmp->next) {
                     tmp = tmp->next;
                 }
 
                 tmp->next = new;
 
             } else {
-                G.edge[target - 1].next = new;
+                G.vertices[target].next = new;
             }
+
+            origin++;
+            target++;
         }
     } while (origin && target);
 
     return G;
 }
 
-void graph_destroy(Graph *graph, int edges) {
-    Vertex *tmp, *curr;
+void graph_bfs(Graph *G, int vertices, int vertex) {
+    Edge *tmp;
+    int *queue, head = 0, size = 0;
+    int i, u;
+
+    queue = malloc(vertices * sizeof(int));
+
+    if (!queue) exit(1);
+
+    for (i = 0; i < vertices; i++) {
+        G->vertices[i].distance = -1;
+        G->vertices[i].pi = 0;
+        G->vertices[i].marked = 0;
+    }
+
+    vertex--;
+
+    G->vertices[vertex].distance = 0;
+    G->vertices[vertex].marked = 1;
+    queue[head] = vertex;
+    size++;
+
+    while (size) {
+        u = queue[head];
+        head++;
+        size--;
+
+        for (tmp = G->vertices[u].next; tmp; tmp = tmp->next) {
+            if (!(G->vertices[tmp->target].marked)) {
+                G->vertices[tmp->target].distance = G->vertices[u].distance + 1;
+                G->vertices[tmp->target].pi = u;
+                queue[(head + size) % vertices] = tmp->target;
+                size++;
+                G->vertices[tmp->target].marked = 1;
+            }
+        }
+    }
+
+    free(queue);
+}
+
+void graph_destroy(Graph *G, int vertices) {
+    Edge *tmp, *curr;
     int i;
 
-    for(i = 0; i < edges; i++) {
-        tmp = graph->edge[i].next;
+    for (i = 0; i < vertices; i++) {
+        tmp = G->vertices[i].next;
 
-        while(tmp) {
+        while (tmp) {
             curr = tmp;
             tmp = curr->next;
             free(curr);
         }
     }
 
-    if (graph->edge) {
-        free(graph->edge);
+    if (G->vertices) {
+        free(G->vertices);
     }
 }
